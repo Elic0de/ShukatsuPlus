@@ -1,0 +1,220 @@
+header {
+	color: #006e12;
+	text-shadow: #ffffff80 0px 0px 12px;
+	padding: 5px 0px;
+	margin: 4px 0px;
+}
+
+body {
+	background-color: #fbfbfb;
+	background-image: linear-gradient(0deg, #fbfbfb, #40b3e9);
+	background-size: 1px 64px;
+	background-repeat: repeat-x;
+	margin: 0px;
+}
+
+td, th {
+	border: solid 1px #808080;
+	padding: 0px 4px;
+}
+
+/* テーブルの背景をストライプにする(偶数行の背景色を変える) */
+tr:nth-child(2n) {
+	background-color: #eee;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+.muted {
+	color: #808080;
+}
+
+.btn {
+	background-image: linear-gradient(180deg, #ccd4e9 0%, #4e81c2 50%, #011963 50%, #86ffff 100%);
+	color: white;
+	border: solid 1px #005b9c;
+	text-shadow: 0px 1px 4px black;
+	border-radius: 3px;
+	transition: box-shadow ease-in-out 100ms;
+}
+.btn:focus, .btn:hover {
+	background-image: linear-gradient(180deg, #c4d7f2 0%, #3c83d1 50%, #013888 50%, #bdffff 100%);
+	box-shadow: 0 0 8px 2px #7dc0d8;
+}
+.btn:active {
+	background-image: linear-gradient(180deg, #718199 0%, #2e4777 50%, #01072e 50%, #49cfff 100%);
+}
+
+.textbox {
+	border-color: #abadb3 #dbdfe6 #e3e9ef #e2e3ea;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 2px;
+	transition: border-color ease-in-out 100ms;
+}
+.textbox:hover {
+	border-color: #5794bf #b7d5ea #c7e2f1 #c5daed;
+}
+.textbox:focus {
+	border-color: #3d7bad #a4c9e3 #b7d9ed #b5cfe7;
+}
+
+/* 「読み込み中…」メッセージ */
+.loading-msg {
+	background-color: #ffffc3;
+	border: solid 1px #f3dbad;
+	border-radius: 1px;
+	padding: 2px 8px;
+	text-align: center;
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	position: absolute;
+}
+
+.loading-msg-wrapper {
+	position: relative;
+}
+
+#app {
+	width: 700px;
+	/* background-color: red; */
+	margin-left: auto;
+	margin-right: auto;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.table-wrapper {
+	overflow-x: scroll;
+}
+
+.search-box .textbox {
+	margin-right: 2px;
+}
+
+th {
+	background-color: #40b3e9;
+	background-image: linear-gradient(180deg, #79c6e9 0%, #40b3e9 50%, #42a5d3 50%, #40b3e9 100%);
+	border-color: #40b3e9;
+	color: white;
+}
+
+.search-box {
+	display: flex;
+	width: 100%;
+}
+.search-box .textbox, .search-box .btn {
+	width: auto;
+	height: 35px;
+	vertical-align: top;
+	border-radius: 0px;
+}
+.search-box .textbox {
+	margin-right: 0px;
+	border-right: 0px;
+	flex-grow: 1;
+}
+.search-box .btn {
+	width: 40px;
+}
+
+@media screen and (max-width: 699px) {
+	#app {
+		width: 100%;
+	}
+
+	.loading-msg {
+		width: 100%;
+	}
+
+	table {
+		width: 100%;
+	}
+
+	.search-box {
+		display: flex;
+		width: 100%;
+	}
+	.search-box .textbox, .search-box .btn {
+		width: auto;
+		height: 35px;
+		vertical-align: top;
+		border-radius: 0px;
+	}
+	.search-box .textbox {
+		margin-right: 0px;
+		border-right: 0px;
+		flex-grow: 1;
+	}
+	.search-box .btn {
+		width: 40px;
+	}
+
+	header {
+		margin: 4px 8px;
+	}
+
+	.chat-base {
+		margin-left: 8px;
+		margin-right: 8px;
+	}
+}
+
+.v-enter-active, .v-leave-active {
+	transition: opacity 500ms ease;
+}
+
+.v-enter-from, .v-leave-to {
+	opacity: 0;
+}
+
+.btn:disabled {
+	filter: grayscale(1);
+}
+
+.chat-wrapper > * {
+	display: block;
+	padding: 2px 10px;
+	border-radius: 2px;
+	border: solid 1px black;
+	max-width: 75%;
+}
+.chat-wrapper-user > * {
+	background-color: #3555a2;
+	border-color: #3555a2;
+	color: white;
+	background-image: linear-gradient(0deg, #3555a2, #40b3e9);
+	text-align: right;
+	text-shadow: #00000080 0px 1px 2px;
+}
+.chat-wrapper-model > * {
+	background-color: gray;
+	color: #202020;
+	background-image: linear-gradient(0deg, #e4e3e6, white);
+	border-color: #95939b;
+	text-shadow: #00000020 0px 1px 2px;
+}
+.chat-wrapper {
+	display: flex;
+}
+.chat-wrapper-user {
+	justify-content: end;
+}
+
+.micbtn {
+	margin-left: 4px;
+	filter: hue-rotate(-50deg);
+}
+
+.micbtn.ongoing {
+	filter: hue-rotate(130deg);
+}
+
+.grayscale {
+	filter: grayscale();
+}

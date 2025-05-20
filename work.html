@@ -1,1 +1,49 @@
-<h1>work.html</h1>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Vue.js</title>
+		<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+		<!-- <script src="./vue.global.js"></script> -->
+		<link rel="stylesheet" href="work.css" />
+	</head>
+	<body>
+		<div id="app">
+			<!-- ページヘッダー -->
+			<header>
+				<h1 style="margin: 0px;">Vue.js</h1>
+			</header>
+			<noscript class="loading-msg">このページを機能させるにはJavaScriptが必要です</noscript>
+			声: <select v-model="voiceSelected">
+				<option v-for="option in voiceOptions" :value="option.value">
+					{{ option.text }}
+				</option>
+			</select>
+
+			<label>Gemini APIキー: <input type="password" class="textbox" v-model="geminiApiKey" /></label>
+
+			<!-- メッセージ入力欄 -->
+			<!-- 検索ボックスを流用している関係上classがsearch-boxとなっている -->
+			<form class="search-box" @submit.prevent="sendChat">
+				<input type="text" class="textbox" v-model="chatInput" v-bind:readonly="searchOngoing" />
+				<input type="submit" class="btn" value="送信" />
+				<input type="button" v-bind:class="'btn micbtn' + (voiceOngoing ? ' ongoing' : '') + (speechRecognitionAvailable ? '' : ' grayscale')" v-bind:value="voiceOngoing ? '停止' : '音声'" @click="voiceInput"  />
+				<label style="display: flex; align-items: center;"><input type="checkbox" class="textbox" v-model="voiceAutoSend" style="margin-right: 4px;" /> 音声自動送信</label>
+			</form>
+
+			<p>{{voiceErrorMessage}}</p>
+
+			<!-- メッセージ履歴 -->
+			<div class="chat-base">
+				<p v-for="val in chat.contents" class="chat-wrapper" :class="'chat-wrapper-' + val.role">
+					<span>
+						{{chatBody(val)}}
+					</span>
+				</p>
+			</div>
+			<p>{{loadingMessage}}</p>
+		</div>
+		<script src="work.js"></script>
+	</body>
+</html>
