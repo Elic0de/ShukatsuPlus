@@ -183,6 +183,7 @@ th {
 	border-radius: 2px;
 	border: solid 1px black;
 	max-width: 75%;
+	white-space: pre-line;
 }
 .chat-wrapper-user > * {
 	background-color: #3555a2;
