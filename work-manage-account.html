@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Vue.js</title>
+		<!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
+		<script src="/vue.global.js"></script>
+		<link rel="stylesheet" href="work.css" />
+	</head>
+	<body>
+		<div id="app">
+			<!-- ページヘッダー -->
+			<header>
+				<h1 style="margin: 0px;">アカウント管理</h1>
+				<a href="work-manage-account.html">アカウント</a> |
+				<a href="work-room-select.html">部屋選択</a>
+			</header>
+			<noscript class="loading-msg">このページを機能させるにはJavaScriptが必要です</noscript>
+
+			<p v-if="!loggedIn">ログインしていません</p>
+			<p v-if="loggedIn && username === ''">現在ログインしています</p>
+			<p v-if="loggedIn && username !== ''">現在{{username}}としてログインしています</p>
+
+			<form @submit.prevent="mkaccount.exec" v-if="!loggedIn">
+				<h2>アカウント作成</h2>
+				<label class="display-block">ユーザーID <small>半角英数字と"_"のみで3~16文字</small><br /><input type="text" class="textbox" v-model="mkaccount.userId" v-bind:readonly="mkaccount.trying || dologin.trying || chpass.trying || dologout.trying" /></label>
+				<label class="display-block">パスワード<br /><input type="password" class="textbox" v-model="mkaccount.password" v-bind:readonly="mkaccount.trying || dologin.trying || chpass.trying || dologout.trying" /></label>
+				<label class="display-block">パスワード(確認)<br /><input type="password" class="textbox" v-model="mkaccount.passwordConfirm" v-bind:readonly="mkaccount.trying || dologin.trying || chpass.trying || dologout.trying" /></label>
+				<input class="display-block btn" type="submit" value="作成" v-bind:readonly="mkaccount.trying || dologin.trying || chpass.trying || dologout.trying" />
+				<p class="error">{{ mkaccount.error }}</p>
+			</form>
+
+			<p v-if="!loggedIn" class="center-text">- or -</p>
+
+			<form @submit.prevent="dologin.exec" v-if="!loggedIn">
+				<h2>ログイン</h2>
+				<label class="display-block">ユーザーID <small>半角英数字と"_"のみで3~16文字</small><br /><input type="text" class="textbox" v-model="dologin.userId" v-bind:readonly="mkaccount.trying || dologin.trying || chpass.trying || dologout.trying" /></label>
+				<label class="display-block">パスワード<br /><input type="password" class="textbox" v-model="dologin.password" v-bind:readonly="mkaccount.trying || dologin.trying || chpass.trying || dologout.trying" /></label>
+				<input class="display-block btn" type="submit" value="ログイン" v-bind:readonly="mkaccount.trying || dologin.trying || chpass.trying || dologout.trying" />
+				<p class="error">{{ dologin.error }}</p>
+			</form>
+
+			<form @submit.prevent="chpass.exec" v-if="loggedIn">
+				<h2>パスワード変更</h2>
+				<label class="display-block">変更前のパスワード<br /><input type="text" class="textbox" v-model="chpass.gasOldPassword" v-bind:readonly="mkaccount.trying || dologin.trying || chpass.trying || dologout.trying" /></label>
+				<label class="display-block">変更後のパスワード<br /><input type="password" class="textbox" v-model="chpass.gasNewPassword" v-bind:readonly="mkaccount.trying || dologin.trying || chpass.trying || dologout.trying" /></label>
+				<label class="display-block">変更後のパスワード(確認)<br /><input type="password" class="textbox" v-model="chpass.gasNewPasswordConfirm" v-bind:readonly="mkaccount.trying || dologin.trying || chpass.trying || dologout.trying" /></label>
+				<input class="display-block btn" type="submit" value="パスワードを変更" v-bind:readonly="mkaccount.trying || dologin.trying || chpass.trying || dologout.trying" />
+				<p class="error">{{ chpass.error }}</p>
+			</form>
+
+			<form @submit.prevent="dologout.exec" v-if="loggedIn">
+				<h2>ログアウト</h2>
+				<input class="display-block btn" type="submit" value="ログアウト" v-bind:readonly="mkaccount.trying || dologin.trying || chpass.trying || dologout.trying" />
+				<p class="error">{{ dologout.error }}</p>
+			</form>
+		</div>
+		<script src="work-manage-account.js"></script>
+	</body>
+</html>

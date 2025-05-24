@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Vue.js</title>
+		<!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
+		<script src="/vue.global.js"></script>
+		<link rel="stylesheet" href="work.css" />
+	</head>
+	<body>
+		<div id="app">
+			<!-- ページヘッダー -->
+			<header>
+				<h1 style="margin: 0px;">部屋一覧</h1>
+				<a href="work-manage-account.html">アカウント</a> |
+				<a href="work-room-select.html">部屋選択</a>
+			</header>
+			<noscript class="loading-msg">このページを機能させるにはJavaScriptが必要です</noscript>
+
+			<div v-if="!loggedIn"><p>ログインしていません。<a href="work-manage-account.html">ログインしてください</a></p></div>
+			<p v-if="!loggedIn">{{ error }}</p>
+			<div v-if="loggedIn">
+				<form @submit.prevent="mkroom.exec">
+					<input type="text" class="textbox" v-model="mkroom.name" v-bind:readonly="mkroom.trying" />
+					<input style="margin-left: 4px;" class="btn" type="submit" value="部屋を作成" v-bind:readonly="mkroom.trying" />
+					{{ mkroom.error }}
+				</form>
+				<button @click="updateRoomList" v-if="!updating" class="btn">部屋一覧を更新</button>
+				<p>{{ error }}</p>
+
+				<ul>
+					<li v-for="room in rooms">
+						<a v-bind:href="'work.html?room_id=' + room['room_id']">{{room["name"] || "<無名>"}}</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<script src="work-room-select.js"></script>
+	</body>
+</html>
