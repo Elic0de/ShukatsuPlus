@@ -40,7 +40,7 @@
 				<p class="error">{{ dologin.error }}</p>
 			</form>
 
-			<form @submit.prevent="chpass.exec" v-if="loggedIn">
+			<form @submit.prevent="chpass.exec" v-if="false && loggedIn">
 				<h2>パスワード変更</h2>
 				<label class="display-block">変更前のパスワード<br /><input type="text" class="textbox" v-model="chpass.gasOldPassword" v-bind:readonly="mkaccount.trying || dologin.trying || chpass.trying || dologout.trying" /></label>
 				<label class="display-block">変更後のパスワード<br /><input type="password" class="textbox" v-model="chpass.gasNewPassword" v-bind:readonly="mkaccount.trying || dologin.trying || chpass.trying || dologout.trying" /></label>
