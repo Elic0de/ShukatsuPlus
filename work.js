@@ -131,6 +131,7 @@
 					abort: err,
 					error: err,
 					load: () => {
+						const resp = JSON.parse(xhr.responseText);
 						if ("error" in resp) {
 							err();
 						} else {
