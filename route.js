@@ -6,8 +6,8 @@
 	createApp({
 		setup() {
 			const tabs = ref([
-				{ id: "spi", url: "./spi", name: "SPI" },
-				{ id: "mensetsu", url: "./mensetsu/work-manage-account.html", name: "面接" },
+				{ id: "spi", url: "./spi", name: "SPI", icon: "📒" },
+				{ id: "mensetsu", url: "./mensetsu/work-manage-account.html", name: "面接", icon: "💺" },
 			]);
 			const currentTab = ref(tabs.value[0]["id"]);
 			const switchTab = (tab) => {

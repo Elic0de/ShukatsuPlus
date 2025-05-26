@@ -16,7 +16,7 @@
 				<div class="tab">
 					<div v-for="tab of tabs" @click="switchTab(tab.id)" v-bind:class="tab.id === currentTab ? 'selected' : ''">
 						<div class="tab-icon">
-							🏠
+							{{tab["icon"]}}
 						</div>
 						<div>
 							{{tab["name"]}}
