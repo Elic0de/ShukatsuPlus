@@ -1,0 +1,73 @@
+html, body, iframe, .tab {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	margin: 0px;
+}
+
+.display-none {
+	display: none;
+}
+
+#app {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.tab-wrapper, td {
+	height: 48px;
+}
+
+.content {
+	flex-grow: 1;
+}
+
+.tab {
+	display: flex;
+	flex-direction: row;
+}
+
+.tab > * {
+	flex: 1;
+	text-align: center;
+	box-sizing: border-box;
+	justify-content: center;
+	align-content: center;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.tab > * {
+	font-size: 12px;
+	transition: font-size ease-out 100ms;
+	box-shadow: inset 0px 2px 4px #00000010;
+}
+.tab > *.selected {
+	color: #1570c5;
+	font-size: 14px;
+	font-weight: bold;
+	background-image: linear-gradient(180deg, #40b3e980, transparent);
+}
+
+.tab-icon {
+	font-size: 20px;
+	height: 20px;
+	margin-bottom: 2px;
+}
+
+.tab {
+	margin-left: auto;
+	margin-right: auto;
+	width: 700px;
+}
+
+@media screen and (max-width: 699px) {
+	.tab {
+		width: 100%;
+	}
+}

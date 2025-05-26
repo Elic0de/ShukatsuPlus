@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>アプリケーション</title>
+		<!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
+		<script src="./vue.global.js"></script>
+		<link rel="stylesheet" href="route.css" />
+	</head>
+	<body>
+		<div id="app">
+			<div class="content">
+				<iframe v-for="tab in tabs" v-bind:src="tab.url" frameborder="0" v-bind:class="tab.id === currentTab ? '' : 'display-none'"></iframe>
+			</div>
+			<div class="tab-wrapper">
+				<div class="tab">
+					<div v-for="tab of tabs" @click="switchTab(tab.id)" v-bind:class="tab.id === currentTab ? 'selected' : ''">
+						<div class="tab-icon">
+							🏠
+						</div>
+						<div>
+							{{tab["name"]}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="route.js"></script>
+	</body>
+</html>
