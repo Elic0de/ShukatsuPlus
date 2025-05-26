@@ -17,7 +17,7 @@
       mounted() {
         const liffId = '2007442228-XDmoqnAK'; // ← LIFF IDを指定
 
-        liff.init({ liffId }).then(() => {
+        liff.init({ liffId, withLoginOnExternalBrowser: true }).then(() => {
           if (!liff.isLoggedIn()) {
             liff.login({ redirectUri: location.href });
           } else {
