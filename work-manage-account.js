@@ -76,6 +76,7 @@
 								const resp = JSON.parse(xhr.responseText);
 								if ("error" in resp) {
 									dologin.value.error = resp.error;
+									dologin.value.trying = false;
 									return;
 								}
 								const intv = window.setInterval(() => {
