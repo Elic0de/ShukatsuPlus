@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>Session 一覧</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h1>セッション一覧</h1>
+    <div v-if="loading">読み込み中...</div>
+    <div v-else>
+      <table border="1" cellpadding="8">
+        <thead>
+          <tr>
+            <th>Session ID</th>
+            <th>開始時刻</th>
+            <th>詳細</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="session in sessions" :key="session.session_id">
+            <td>{{ session.session_id }}</td>
+            <td>{{ session.start_time }}</td>
+            <td>
+              <button @click="goToDetail(session.session_id)">正誤</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        sessions: [],
+        loading: true,
+        userName: '',
+        userId: '',
+        idToken: ''
+      },
+      created() {
+        // セッションからログイン情報を取得
+        const idToken = sessionStorage.getItem('idToken');
+        const userName = sessionStorage.getItem('userName');
+        const userId = sessionStorage.getItem('userId');
+
+        if (!idToken || !userName || !userId) {
+          // 未ログイン → authWrapper.html に飛ばす
+          window.location.href = 'authWrapper.html';
+        } else {
+          // ログイン済み → データを使う
+          this.userName = userName;
+          this.userId = userId;
+        }
+      },
+      mounted() {
+        const url = `https://script.google.com/macros/s/AKfycbw8lWyor28McmAj4JubiPM8fXX4YdoV0sTaR6-KCGt-e9Y7-GheBIv6ekOKSNmi8H0l/exec?action=getResult&user_id=${this.userId}`;
+        fetch(url)
+          .then(res => res.json())
+          .then(data => {
+            this.sessions = data.sessions;
+            this.loading = false;
+          })
+          .catch(err => {
+            console.error(err);
+            this.loading = false;
+          });
+      },
+      methods: {
+        goToDetail(sessionId) {
+          window.location.href = `detail.html?session_id=${encodeURIComponent(sessionId)}`;
+        }
+      }
+    });
+  </script>
+</body>
+</html>

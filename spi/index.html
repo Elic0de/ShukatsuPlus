@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>模擬試験アプリ</title>
+  <script src="https://unpkg.com/vue@3"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h1>模擬試験アプリ</h1>
+
+    <!-- ログイン画面 -->
+    <div v-if="!sessionId && result === null">
+      <button @click="loadExams">試験一覧を読み込む</button>
+
+      <div v-if="exams.length">
+        <h2>受験可能な試験</h2>
+        <ul>
+          <li v-for="exam in exams" :key="exam.exam_id">
+            {{ exam.title }}
+            <button @click="startExam(exam.exam_id)">受験開始</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 試験中画面 -->
+    <div v-if="sessionId && questions.length && result === null">
+      <h2>{{ currentQuestion.title }}</h2>
+      <!-- <p>カテゴリ: {{ currentQuestion.category }}</p> -->
+    
+      <p>残り時間（全体）: {{ formatTime(totalTime) }}</p>
+      <p>残り時間（この問題）: {{ formatTime(localTimeLeft) }}</p>
+
+      <form @submit.prevent="goToNextQuestion">
+        <div class="question-box">
+          <p>{{ currentPart.question }}</p>
+          <div v-for="(text, key) in currentPart.choices" :key="key" class="choice">
+            <label>
+              <input type="radio" :name="'choice_' + currentPart.id" :value="key" v-model="answers[currentPart.id]" />
+              {{ text }}
+            </label>
+          </div>
+        </div>
+        
+        <button type="submit">次の問題へ</button>
+      </form>
+
+      <div v-if="currentQuestion.parts.length > 1">
+        <div class="tab" v-for="(part, index) in currentQuestion.parts" :key="part.id"
+          :class="{ active: selectedPartIndex === index }" @click="selectedPartIndex = index">
+          問{{ index + 1 }}
+        </div>
+      </div>
+    </div>
+
+    <!-- 結果画面 -->
+    <div v-if="result !== null">
+      <h2>試験終了！</h2>
+      <p>お疲れさまでした</p>
+      <button @click="goToDetail">正誤を確認する</button>
+      <button @click="reset">最初に戻る</button>
+    </div>
+  </div>
+
+  <script>
+    const BASE_URL = 'https://script.google.com/macros/s/AKfycbw8lWyor28McmAj4JubiPM8fXX4YdoV0sTaR6-KCGt-e9Y7-GheBIv6ekOKSNmi8H0l/exec';
+
+    Vue.createApp({
+      data() {
+        return {
+          userName: '',
+          userId: '',
+          exams: [],
+          questions: [],
+          sessionId: null,
+          result: null,
+          currentIndex: 0,
+          selectedPartIndex: 0,
+          answers: {},
+          timer: null,
+          globalTimer: null,
+          totalTime: 35 * 60,
+          localTimeLeft: 30,
+          timePerQuestion: 30
+        };
+      },
+      created() {
+        // セッションからログイン情報を取得
+        const idToken = sessionStorage.getItem('idToken');
+        const userName = sessionStorage.getItem('userName');
+        const userId = sessionStorage.getItem('userId');
+
+        if (!idToken || !userName || !userId) {
+          // 未ログイン → authWrapper.html に飛ばす
+          window.location.href = 'authWrapper.html';
+        } else {
+          // ログイン済み → データを使う
+          this.userName = userName;
+          this.userId = userId;
+        }
+      },
+      computed: {
+        currentQuestion() {
+          return this.questions[this.currentIndex];
+        },
+        currentPart() {
+          return this.currentQuestion.parts[this.selectedPartIndex];
+        }
+      },
+      watch: {
+        currentIndex() {
+          this.selectedPartIndex = 0;
+        }
+      },
+      methods: {
+        async loadExams() {
+          const res = await fetch(`${BASE_URL}?action=getExams`);
+          this.exams = await res.json();
+        },
+        async startExam(examId) {
+          const startRes = await fetch(`${BASE_URL}?action=startExam&user_id=${this.userId}&exam_id=${examId}`);
+          const startData = await startRes.json();
+
+          if (startData.error) {
+            alert(startData.error);
+            return;
+          }
+
+          this.sessionId = startData.session_id;
+
+          const examDetailRes = await fetch(`${BASE_URL}?action=getExamDetail&exam_id=${examId}`);
+          const examData = await examDetailRes.json();
+
+          this.questions = examData;
+
+          this.startGlobalTimer();
+          this.startQuestionTimer();
+        },
+        startGlobalTimer() {
+          this.globalTimer = setInterval(() => {
+            this.totalTime--;
+            if (this.totalTime <= 0) {
+              clearInterval(this.globalTimer);
+              clearInterval(this.timer);
+              this.finishExam();
+            }
+          }, 1000);
+        },
+        startQuestionTimer() {
+          if (this.timer) clearInterval(this.timer);
+          this.localTimeLeft = this.currentQuestion?.time_limit || this.timePerQuestion;
+          this.timer = setInterval(() => {
+            this.localTimeLeft--;
+            if (this.localTimeLeft <= 0) {
+              clearInterval(this.timer);
+              this.goToNextQuestion();
+            }
+          }, 1000);
+        },
+        async sendSingleAnswer() {
+          const q = this.currentQuestion;
+          if (!q) return;
+          await fetch(`${BASE_URL}?action=submitAnswer`, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain" },
+            body: JSON.stringify({
+              session_id: this.sessionId,
+              answers: this.answers
+            })
+          });
+          this.answers = {};
+        },
+        goToNextQuestion() {
+          if (this.currentIndex < this.questions.length - 1) {
+            this.currentIndex++;
+          } else {
+            clearInterval(this.globalTimer);
+            clearInterval(this.timer);
+            this.finishExam();
+            return;
+          }
+          this.startQuestionTimer();
+          this.sendSingleAnswer();
+        },
+        async finishExam() {
+          clearInterval(this.globalTimer);
+          clearInterval(this.timer);
+          // const res = await fetch(`${BASE_URL}?action=submitAnswers`, {
+          //   method: "POST",
+          //   headers: { "Content-Type": "text/plain" },
+          //   body: JSON.stringify({
+          //     session_id: this.sessionId,
+          //     answers: this.answers
+          //   })
+          // });
+          // const data = await res.json();
+          // if (data.error) {
+          //   alert(data.error);
+          // } else {
+            this.result = 1;
+            //this.sessionId = null;
+          //}
+        },
+        formatTime(seconds) {
+          const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+          const s = String(seconds % 60).padStart(2, '0');
+          return `${m}:${s}`;
+        },
+        reset() {
+          this.exams = [];
+          this.sessionId = null;
+          this.result = null;
+          this.currentPart = 0;
+          this.currentIndex = 0;
+          this.questions = [];
+          this.answers = {};
+          this.totalTime = 35 * 60;
+          clearInterval(this.globalTimer);
+          clearInterval(this.timer);
+        },
+        goToDetail() {
+          window.location.href = `detail.html?session_id=${encodeURIComponent(this.sessionId)}`;
+        }
+      }
+    }).mount("#app");
+  </script>
+</body>
+
+</html>
