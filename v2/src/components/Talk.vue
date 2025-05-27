@@ -384,7 +384,7 @@
 
 		<!-- メッセージ入力欄 -->
 		<!-- 検索ボックスを流用している関係上classがsearch-boxとなっている -->
-		<div class="message-input-wrapper pos-fix bottom-0">
+		<div class="message-input-wrapper pos-fix">
 			<form class="search-box same-width-as-main" @submit.prevent="sendChat">
 				<input type="text" class="textbox" v-model="chatInput" v-bind:readonly="searchOngoing" />
 				<input type="submit" class="btn" value="送信" />

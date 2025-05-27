@@ -159,6 +159,19 @@ th {
 	position: fixed;
 }
 
+.message-input-wrapper {
+	height: 35px;
+	left: 0;
+	right: 0;
+	box-shadow: 0px -4px 10px #fbfbfb;
+	background-color: #fbfbfb;
+	bottom: 0px;
+}
+.message-input-wrapper > * {
+	margin-left: auto;
+	margin-right: auto;
+}
+
 @media screen and (max-width: 699px) {
 	#app, .same-width-as-main {
 		width: 100%;
@@ -202,6 +215,10 @@ th {
 
 	.btn {
 		padding: 5px 8px;
+	}
+
+	.message-input-wrapper {
+		bottom: 48px;
 	}
 }
 
@@ -270,18 +287,6 @@ th {
 
 .bottom-0 {
 	bottom: 0;
-}
-
-.message-input-wrapper {
-	height: 35px;
-	left: 0;
-	right: 0;
-	box-shadow: 0px -4px 10px #fbfbfb;
-	background-color: #fbfbfb;
-}
-.message-input-wrapper > * {
-	margin-left: auto;
-	margin-right: auto;
 }
 
 .drpdwn {

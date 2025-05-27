@@ -1,9 +1,11 @@
 <script setup>
-	import { ref, computed, onMounted } from "vue";
+	import { ref, computed } from "vue";
 	import Header from "./Header.vue";
 	import Talk from "./Talk.vue";
 	import { postGas } from "@/scripts/gas";
 	import LoadingIndicator from "./LoadingIndicator.vue";
+
+	const emit = defineEmits(["callbackMeWhenActive"]);
 
 	const props = defineProps({
 		sessionId: { type: String, required: true },
@@ -21,6 +23,7 @@
 	const updating = ref(false);
 
 	const updateRoomList = () => {
+		console.log(isLoggedIn.value + "lplplplp")
 		if (!isLoggedIn.value) {
 			rooms.value = [];
 			error.value = "ログインしてください";
@@ -99,8 +102,15 @@
 		talkTitle.value = v;
 	}
 
-	onMounted(() => {
-		if (isLoggedIn.value) updateRoomList();
+	const updateRoomListIfEmpty = () => {
+		if (isLoggedIn.value && rooms.value.length === 0) {
+			updateRoomList();
+		}
+	};
+
+	defineExpose({
+		updateRoomList,
+		updateRoomListIfEmpty,
 	});
 </script>
 

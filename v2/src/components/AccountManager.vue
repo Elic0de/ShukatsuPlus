@@ -131,7 +131,7 @@
 		error: "",
 		trying: false,
 		exec: () => {
-			sessionId.value = "";
+			sessionId.value = username.value = "";
 			dologout.value.error = "";
 			$toast.success("ログアウトしました!", { position: "top" });
 		},
@@ -151,6 +151,8 @@
 			<input class="display-block btn" type="submit" value="ログイン" v-bind:disabled="someTrying" />
 			<p class="error"><LoadingIndicator v-bind:show="dologin.trying" /> {{ dologin.error }}</p>
 		</form>
+
+		<button @click="$emit('continue')" class="btn line">LINEでログインする</button>
 
 		<form @submit.prevent="mkaccount.exec">
 			<h2>アカウント作成</h2>
@@ -174,7 +176,6 @@
 <style scoped>
 	.line {
 		filter: hue-rotate(-50deg);
-		margin-left: auto;
 		display: block;
 	}
 </style>

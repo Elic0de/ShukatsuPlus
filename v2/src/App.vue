@@ -5,11 +5,14 @@
 	import TheWelcome2 from './components/TheWelcome.vue';
 	import Mensetsu from "./components/Mensetsu.vue";
 
+	const instMensetsu = ref(null);
+
 	const tabs = ref([
 		{ id: "spi", url: markRaw(Spi), name: "SPI", icon: "pencil" },
 		{ id: "mensetsu", url: markRaw(Mensetsu), name: "面接", icon: "comments" },
 		{ id: "account", url: markRaw(AccountManager), name: "アカウント", icon: "user" },
 	]);
+
 	const scrollLocations = ref((() => {
 		const rslt = {};
 		for (let i of tabs.value) rslt[i["id"]] = 0;
@@ -18,13 +21,19 @@
 	const currentTab = ref(tabs.value[0]["id"]);
 	const switchTab = (tab) => {
 		currentTab.value = tab;
+		instMensetsu.value && instMensetsu.value.updateRoomListIfEmpty();
 		window.scrollTo(0, 0);
 	};
 	const whiteHeader = ref(false);
 	const sessionId = ref(localStorage.getItem("SessionId"));
 	const username = ref(localStorage.getItem("Username"));
-	watch(sessionId, v => localStorage.setItem("SessionId", v));
-	watch(username, v => localStorage.setItem("Username", v));
+	watch(sessionId, v => {
+		localStorage.setItem("SessionId", v);
+		window.setTimeout(() => instMensetsu.value && instMensetsu.value.updateRoomList(), 1000);
+	});
+	watch(username, v => {
+		localStorage.setItem("Username", v);
+	});
 
 	const onScroll = () => {
 		whiteHeader.value = window.scrollY <= 48;
@@ -55,9 +64,12 @@
 			</div>
 		</div>
 		<div class="content">
-			<div v-for="tab in tabs" v-show="tab.id === currentTab">
+			<div v-show="currentTab === 'spi'" ><Spi /></div>
+			<div v-show="currentTab === 'mensetsu'" ><Mensetsu :session-id="sessionId" :username="username" ref="instMensetsu" /></div>
+			<div v-show="currentTab === 'account'" ><AccountManager v-model:session-id="sessionId" v-model:username="username" /></div>
+			<!-- <div v-for="tab in tabs" v-show="tab.id === currentTab">
 				<component :is="tab.url" v-model:session-id="sessionId" v-model:username="username"></component>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>
