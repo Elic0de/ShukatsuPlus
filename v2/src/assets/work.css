@@ -14,10 +14,16 @@ header {
 
 body {
 	background-color: #fbfbfb;
-	background-image: linear-gradient(0deg, #fbfbfb, #40b3e9);
-	background-size: 1px 64px;
+	background-image: linear-gradient(180deg, #40b3e9 48px, #fbfbfb);
+	background-size: 1px 112px; /* 64+48=112 */
 	background-repeat: repeat-x;
 	margin: 0px;
+}
+@media screen and (max-width: 699px) {
+	body {
+		background-image: linear-gradient(180deg, #40b3e9, #fbfbfb);
+		background-size: 1px 64px;
+	}
 }
 
 td, th {

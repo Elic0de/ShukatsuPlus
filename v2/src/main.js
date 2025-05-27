@@ -1,7 +1,11 @@
-import './assets/work.css'
+import './assets/work.css';
+import './assets/font-awesome.css';
 // import './assets/main.css'
 
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from 'vue';
+import App from './App.vue';
 
-createApp(App).mount('#app')
+import ToastPlugin from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-bootstrap.css';
+
+createApp(App).use(ToastPlugin).mount('#app');

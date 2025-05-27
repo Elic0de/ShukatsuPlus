@@ -5,6 +5,7 @@
 
 	const waitForContinue = ref(true);
 	const onContinue = () => {
+		window.location = "https://j23005.bitbucket.io";
 		waitForContinue.value = false;
 	};
 </script>
