@@ -1,6 +1,6 @@
 "use strict";
 
-const GAS_API_ENDPOINT = "https://script.google.com/macros/s/AKfycbwfKSr7DkneqbXE4T2fxbPJ9ZnZtt-zzSGIdFeyjILUuxqslJNWTQMJFmt5qimKxVsl7Q/exec";
+const GAS_API_ENDPOINT = "https://script.google.com/macros/s/AKfycbx79IaZ3pizu2kNnN8poHVvrwJZAW-eMjz8n7OldeElCPJXP17WijZGOI5i12ZDrtNT7A/exec";
 
 export const postGas = (path, body, handlers) => {
 	const xhr = new XMLHttpRequest();

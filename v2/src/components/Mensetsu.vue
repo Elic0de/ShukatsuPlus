@@ -23,7 +23,6 @@
 	const updating = ref(false);
 
 	const updateRoomList = () => {
-		console.log(isLoggedIn.value + "lplplplp")
 		if (!isLoggedIn.value) {
 			rooms.value = [];
 			error.value = "ログインしてください";

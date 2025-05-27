@@ -1,8 +1,7 @@
 <script setup>
-	import { ref, computed, watch, markRaw, onMounted, onBeforeUnmount } from "vue";
+	import { ref, watch, markRaw, onMounted, onBeforeUnmount } from "vue";
 	import Spi from './components/Spi.vue';
 	import AccountManager from './components/AccountManager.vue';
-	import TheWelcome2 from './components/TheWelcome.vue';
 	import Mensetsu from "./components/Mensetsu.vue";
 
 	const instMensetsu = ref(null);
