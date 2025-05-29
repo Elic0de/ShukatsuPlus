@@ -1,6 +1,6 @@
 <script setup>
-import RankBadge from '@/components/leaderboard/new/RankBadge.vue'
-import UserAvatar from '@/components/leaderboard/new/UserAvatar.vue'
+import RankBadge from '@/components/leaderboard/RankBadge.vue'
+import UserAvatar from '@/components/leaderboard/UserAvatar.vue'
 defineProps({
   rank: Number,
   username: String,
