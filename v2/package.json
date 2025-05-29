@@ -4,12 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.7",
+    "tailwindcss": "^4.1.7",
     "vue": "^3.5.13",
+    "vue-router": "^4.5.1",
     "vue-toast-notification": "^3"
   },
   "devDependencies": {
