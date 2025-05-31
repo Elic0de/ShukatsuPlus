@@ -19,6 +19,7 @@ import LeaderboardPage from '@/views/LeaderboardPage.vue'
 import Profile from '@/views/Profile.vue'
 import ExamPage from '@/views/exam/ExamPage.vue'
 import ReviewPage from '@/views/exam/ReviewPage.vue'
+import LineAuth from '@/views/auth/LineAuth.vue'
 
 const routes = [
   { path: '/', component: Welecome },
@@ -39,6 +40,7 @@ const routes = [
   { path: '/auth', component: AuthPage },
   { path: '/login', component: LoginPage   },
   { path: '/signup', component: SignUp },
+  { path: '/oauth/line', component: LineAuth },
 ]
 
 const router = createRouter({

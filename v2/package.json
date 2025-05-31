@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@line/liff": "^2.26.1",
     "@tailwindcss/vite": "^4.1.7",
     "pinia": "^3.0.2",
     "tailwindcss": "^4.1.7",
