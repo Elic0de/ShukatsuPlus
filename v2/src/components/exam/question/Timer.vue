@@ -1,7 +1,5 @@
 <template>
-  <div class="timer">
-    <strong>{{ label }}:</strong> {{ formattedTime }}
-  </div>
+  <div class="timer font-bold">{{ label }}:<span class="font-normal">{{ formattedTime }}</span></div>
 </template>
 
 <script setup>
@@ -22,9 +20,3 @@ const formattedTime = computed(() => {
   return `${m}:${s}`;
 });
 </script>
-
-<style scoped>
-.timer {
-  font-size: 1.2rem;
-}
-</style>
