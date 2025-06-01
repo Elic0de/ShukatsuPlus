@@ -6,7 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write src/**/*.{js,vue}"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "useTabs": true,
+    "tabWidth": 4,
+    "semi": true,
+    "singleQuote": false,
+    "vueIndentScriptAndStyle": true
   },
   "dependencies": {
     "@line/liff": "^2.26.1",
@@ -19,6 +28,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.3",
+    "prettier": "3.5.3",
     "vite": "^6.2.4",
     "vite-plugin-vue-devtools": "^7.7.2"
   }
