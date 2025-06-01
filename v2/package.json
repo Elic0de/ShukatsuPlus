@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "format": "prettier --write src/**/*.{js,vue}"
+    "format": "prettier --write src/{,**}/*.{js,vue}"
   },
   "prettier": {
     "trailingComma": "es5",
