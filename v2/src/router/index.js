@@ -26,27 +26,14 @@ import InterviewChat from "@/views/interview/InterviewChat.vue";
 
 import { applySessionGuard } from "@/router/guards/sessionGuard";
 
+// prettier-ignore
 const routes = [
 	{ path: "/", component: Welcome },
 	{ path: "/lesson", component: Lesson, meta: { showBottomNav: true } },
 	{ path: "/profile", component: Profile, meta: { showBottomNav: true } },
-	{
-		path: "/leaderboard",
-		component: LeaderboardPage,
-		meta: { showBottomNav: true },
-	},
-	{
-		path: "/spi",
-		name: "spi",
-		component: ExamList,
-		meta: { showBottomNav: true },
-	},
-	{
-		path: "/interview",
-		name: "Interview",
-		component: Interview,
-		meta: { showBottomNav: true },
-	},
+	{ path: "/leaderboard", component: LeaderboardPage, meta: { showBottomNav: true } },
+	{ path: "/spi", name: "spi", component: ExamList, meta: { showBottomNav: true } },
+	{ path: "/interview", name: "Interview", component: Interview, meta: { showBottomNav: true } },
 
 	{ path: "/room/create", name: "RoomCreate", component: RoomCreate },
 	{ path: "/room/:roomId", name: "Room", component: Room, props: true },
