@@ -10,10 +10,8 @@ import AccountManager from '@/components/auth/AccountManager.vue'
 //
 import RoomCreate from '@/views/interview/RoomCreate.vue'
 import Room from '@/views/interview/Room.vue'
-import FeedBack from '@/components/interview/FeedBack.vue'
 
 // 
-//
 import Lesson from '@/views/Lesson.vue'
 import ExamList from '@/views/exam/ExamList.vue'
 import Interview from '@/views/interview/Interview.vue'
@@ -38,7 +36,9 @@ const routes = [
 
   { path: '/room/create', name: 'RoomCreate', component: RoomCreate },
   { path: '/room/:roomId', name: 'Room', component: Room, props: true },
-  { path: '/room/feedback/:roomId', component: FeedBack, props: true },
+  { path: '/room/feedback/:roomId', component: Feedback, props: true },
+
+  { path: '/chat', component: InterviewChat, props: true },
 
   { path: '/spi/:sessionId', component: ExamPage, props: true },
   { path: '/spi/review/:sessionId', component: ReviewPage, props: true },
@@ -48,6 +48,7 @@ const routes = [
   { path: '/login', component: AccountManager  },
   { path: '/signup', component: SignUp },
   { path: '/oauth/line', component: LineAuth },
+
 ]
 
 const router = createRouter({
