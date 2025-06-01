@@ -4,7 +4,7 @@
      <div class="m-0 flex w-full flex-col pb-20 text-center">
       <div class="sticky z-10 bg-white">
         <div class="mt-6 mb-5 text-[25px] font-bold">SPI模擬試験</div>
-        <div class="mb-4 h-6.5 items-center">
+        <div class="h-6.5 items-center">
           <hr class="h-0 border-0 border-t-2 border-neutral-200" />
         </div>
       </div>
@@ -26,6 +26,8 @@
               v-for="exam in examStore.data"
               :key="exam.exam_id"
               :title="exam.title"
+              :date="'2025/05/31'"
+              @click="() => goToReview('0cffbc57-1ce6-4a05-8de7-cbf3bca36720')"
             />
           </section>
         </section>
@@ -52,5 +54,9 @@ async function startExam(examId) {
   const session_id = await examStore.startExam(examId);
   if (!session_id) return;
   router.push(`/spi/${session_id}`)
+}
+
+const goToReview = (examId) => {
+  router.push(`/spi/review/${examId}`)
 }
 </script>
