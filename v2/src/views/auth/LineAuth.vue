@@ -1,24 +1,23 @@
-<template>
-</template>
+<template></template>
 
 <script setup>
-    import { onMounted } from "vue";
+	import { onMounted } from "vue";
 
-    import { useLiff } from "@/composables/useLiff";
-    const { login, getIdToken } = useLiff();
-    onMounted(async () => {
-        login();
+	import { useLiff } from "@/composables/useLiff";
+	const { login, getIdToken } = useLiff();
+	onMounted(async () => {
+		login();
 
-        const idToken = getIdToken();
+		const idToken = getIdToken();
 
-         if (idToken) {
-            const response = await postIdTokenToGAS(idToken);
-            
-            // authStore.setSession({
-            //     sessionId: response.sessionId,
-            //     userName: profile.displayName,
-            //     userId: profile.userId,
-            // });
-        }
-    })
+		if (idToken) {
+			const response = await postIdTokenToGAS(idToken);
+
+			// authStore.setSession({
+			//     sessionId: response.sessionId,
+			//     userName: profile.displayName,
+			//     userId: profile.userId,
+			// });
+		}
+	});
 </script>
