@@ -6,5 +6,12 @@
 </script>
 
 <template>
-	<img v-if="props.show" src="../assets/loader.gif" alt="" aria-hidden="true" :width="props.size" :height="props.size" />
+	<img
+		v-if="props.show"
+		src="../assets/loader.gif"
+		alt=""
+		aria-hidden="true"
+		:width="props.size"
+		:height="props.size"
+	/>
 </template>

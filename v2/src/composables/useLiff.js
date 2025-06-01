@@ -1,11 +1,11 @@
 import liff from "@line/liff";
 
 export const useLiff = () => {
-  const login = () => {
-    if (!liff.isLoggedIn()) liff.login();
-  };
+	const login = () => {
+		if (!liff.isLoggedIn()) liff.login();
+	};
 
-  const getIdToken = () => liff.getIDToken();
+	const getIdToken = () => liff.getIDToken();
 
-  return { login, getIdToken };
+	return { login, getIdToken };
 };
