@@ -7,6 +7,7 @@
 		/>
 		<div class="px-4 py-6">
 			<h2 class="text-neutral-400 text-xl mb-2">最近</h2>
+			<p v-if="updating" class="text-center">更新中…</p>
 			<RecentCallItem
 				v-for="item in rooms"
 				:key="item.room_id"
