@@ -43,7 +43,7 @@ const routes = [
 
 	{ path: "/spi/:sessionId", component: ExamPage, props: true },
 	{ path: "/spi/review/:sessionId", component: ReviewPage, props: true },
-	// { path: '/spi/review/:id', component: ExamResult, props: true },
+	// { path: "/spi/review/:id", component: ExamResult, props: true },
 
 	{ path: "/auth", component: AuthPage },
 	{ path: "/login", component: AccountManager },
