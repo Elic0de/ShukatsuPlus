@@ -1,5 +1,5 @@
 <script setup>
-	import { ref, computed } from "vue";
+	import { ref, computed, provide } from "vue";
 	import BottonNav from "@/components/BottonNav.vue";
 	import { useRoute } from "vue-router";
 
@@ -8,6 +8,14 @@
 	const showBottomNav = computed(() => {
 		// showBottomNav が true のときだけ表示、それ以外（undefined含む）は非表示
 		return route.meta?.showBottomNav === true;
+	});
+
+	provide("auth", {
+		login: function() {
+		},
+		state: {
+			sessionId: "",
+		},
 	});
 </script>
 
