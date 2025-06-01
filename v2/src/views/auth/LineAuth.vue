@@ -4,7 +4,7 @@
 	import { onMounted } from "vue";
 
 	import { useLiff } from "@/composables/useLiff";
-	const { login, getIdToken } = useLiff();
+	const { login, getIdToken } = await useLiff();
 	onMounted(async () => {
 		login();
 
