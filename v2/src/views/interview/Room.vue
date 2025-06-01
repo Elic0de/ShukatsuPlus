@@ -7,21 +7,19 @@
 </template> -->
 
 <script setup>
-	import { ref, computed, onMounted, watch, inject } from "vue";
+	import { ref, onMounted, watch } from "vue";
+	import ChatBubble from '@/components/feedback/ChatBubble.vue'
 	import { postGas } from "@/scripts/gas";
     import { useRoute } from 'vue-router'
+	import { useSessionStore } from '@/stores/session'
+	import Loading from '@/components/ui/LoadingV2.vue'
 
 	const emit = defineEmits(["changeTitle", "requireGoBack"]);
-	const { state } = inject('auth')
-
-	// const props = defineProps({
-	// 	username: { type: String, required: true },
-	// });
+	const store = useSessionStore()
 
     const route = useRoute()
     const roomId = route.params.roomId
 
-	const isLoggedIn = computed(() => !!state.sessionId);
 
 	onMounted(() => {
 		emit("changeTitle", "部屋情報を取得中…");
@@ -29,6 +27,7 @@
 
 	const API_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
+	const loading = ref(true);
 	const geminiApiKey = ref("");
 	const chatInput = ref("");
 	const loadingMessage = ref("");
@@ -120,7 +119,7 @@
 		};
 
 		const xhr = postGas("/api/0.1/room/rename", {
-			session_id: state.sessionId,
+			session_id: store.sessionId.value,
 			room_id: roomId,
 			new_name: newName,
 		}, {
@@ -140,7 +139,7 @@
 
 	const restoreChat = (callback) => {
 		const xhr = postGas("/api/0.1/room/chat/lookup", {
-			session_id: state.sessionId,
+			session_id: store.sessionId.value,
 			room_id: roomId,
 		}, {
 			abort: () => { roomError.value = "会話を復元できませんでした"; },
@@ -160,6 +159,7 @@
 					for (let item of resp.sort((i, j) => i.created_at_milli - j.created_at_milli).sort((i, j) => i.created_at - j.created_at)) {
 						chat.value.contents.push({ role: item["role"], parts: { text: item["body"] } });
 					}
+					loading.value = false;
 					callback();
 				} catch (exception) {
 					roomError.value = "会話を復元できませんでした";
@@ -171,7 +171,7 @@
 
 	(() => {
 		const xhr = postGas("/api/0.1/room/lookup", {
-			session_id: state.sessionId,
+			session_id: store.sessionId.value,
 			room_id: roomId,
 		}, {
 			abort: () => { roomError.value = "部屋情報を取得できませんでした"; },
@@ -223,7 +223,7 @@
 			if (quickCall) callbackOk();
 			const date = new Date();
 			const xhr = postGas("/api/0.1/room/chat/append", {
-				session_id: state.sessionId,
+				session_id: store.sessionId.value,
 				room_id: roomId,
 				role,
 				body,
@@ -374,70 +374,97 @@
 </script>
 
 <template>
-	<div class="p-4 bg-gray-100 min-h-screen flex flex-col">
-		<!-- 戻るボタン -->
-		<button class="text-blue-600 hover:underline mb-2 flex items-center" @click="$emit('requireGoBack')">
-			<i class="fa fa-arrow-left mr-2" aria-hidden="true"></i>部屋選択へ戻る
-		</button>
+	<Loading v-if="loading" />
+	<div v-else>
+		<div class="sticky top-0 bg-white z-20 px-4 pb-2 pt-4 border-neutral-200 border-b-2">
+				<!-- 戻るボタン -->
+				<RouterLink :to="`/interview`">
+					<button class="text-blue-600 hover:underline mb-2 flex items-center">
+						<i class="fa fa-arrow-left mr-2" aria-hidden="true"></i>部屋選択へ戻る
+					</button>
+				</RouterLink>
 
-		<!-- ヘッダー -->
-		<div class="mb-4">
-			<a href="#" @click.prevent="renameRoom" class="text-sm text-blue-500 hover:underline">部屋の名前を変更</a>
-			<small class="block text-gray-500 text-xs mt-1">部屋ID: {{ roomId }}</small>
-		</div>
-
-		<div v-if="roomId === ''" class="text-center mt-10 text-gray-500">
-			<a href="work-room-select.html" class="text-blue-500 underline">部屋を選択してください</a>
-		</div>
-
-		<div v-if="roomId !== '' && roomGot" class="flex flex-col flex-grow relative">
-			<!-- 設定 -->
-			<div class="mb-4 space-y-2">
-				<label class="block text-sm">声:
-					<select v-model="voiceSelected" class="border rounded px-2 py-1 w-full" @change="updateLastVoice">
-						<option v-for="option in voiceOptions" :value="option.value">{{ option.text }}</option>
-					</select>
-				</label>
-				<label class="block text-sm">Gemini APIキー:
-					<input type="password" class="border rounded px-2 py-1 w-full" v-model="geminiApiKey" />
-				</label>
+				<!-- ヘッダー -->
+				<div class="">
+					<a href="#" @click.prevent="renameRoom" class="text-sm text-blue-500 hover:underline">部屋の名前を変更</a>
+					<small class="block text-gray-500 text-xs mt-1">部屋ID: {{ roomId }}</small>
+				</div>
 			</div>
+			<div class="p-4 bg-gray-100 min-h-screen flex flex-col">
+				<div v-if="roomId === ''" class="text-center mt-10 text-gray-500">
+					<a href="work-room-select.html" class="text-blue-500 underline">部屋を選択してください</a>
+				</div>
 
-			<!-- チャット履歴 -->
-			<div class="flex-grow overflow-y-auto space-y-2 mb-24">
-                <p
-                v-for="val in chat.contents"
-                :key="val.id"
-                :class="[
-                    'max-w-xs px-4 py-2 rounded-lg shadow text-sm whitespace-pre-wrap break-words text-left',
-                    val.role === 'user'
-                    ? 'ml-auto bg-green-100'
-                    : 'mr-auto bg-white'
-                ]"
-                >
-                {{ chatBody(val) }}
-                </p>
-				<p class="text-gray-500 text-sm mt-2">{{ loadingMessage }}</p>
+				<div v-if="roomId !== '' && roomGot" class="flex flex-col flex-grow relative">
+					<!-- 設定 -->
+					<div class="mb-4 space-y-2">
+						<label class="block text-sm">声:
+							<select v-model="voiceSelected" class="border rounded px-2 py-1 w-full" @change="updateLastVoice">
+								<option v-for="option in voiceOptions" :value="option.value">{{ option.text }}</option>
+							</select>
+						</label>
+						<label class="block text-sm">Gemini APIキー:
+							<input type="password" class="border rounded px-2 py-1 w-full" v-model="geminiApiKey" />
+						</label>
+					</div>
+
+					<!-- チャット履歴 -->
+					<!-- <div class="flex-grow overflow-y-auto space-y-2 mb-24">
+						<p
+						v-for="val in chat.contents"
+						:key="val.id"
+						:class="[
+							'max-w-xs px-4 py-2 rounded-lg shadow text-sm whitespace-pre-wrap break-words text-left',
+							val.role === 'user'
+							? 'ml-auto bg-green-100'
+							: 'mr-auto bg-white'
+						]"
+						>
+						{{ chatBody(val) }}
+						</p>
+						<p class="text-gray-500 text-sm mt-2">{{ loadingMessage }}</p>
+					</div> -->
+
+					<div class="flex flex-col gap-3 pb-40">
+						<template v-for="val in chat.contents" :key="val.id">
+							<ChatBubble
+							:sender="val.role === 'user' ? '' : '面接官'"
+							:message="chatBody(val)"
+							:isUser="val.role === 'user'"
+							>
+							</ChatBubble>
+						</template>
+					</div>
+
+					<!-- 入力欄 -->
+					<div class="fixed bottom-0 left-0 right-0 bg-white px-4 py-4 flex items-center space-x-2">
+						<input
+							v-model="chatInput"
+							@keyup.enter="sendChat"
+							class="w-full p-4 border-neutral-400 border-2 rounded"
+							placeholder="面接官の質問に答えてください"
+						/>
+					</div>
+					
+					<!-- メッセージ入力欄 -->
+					<!-- <div class="fixed bottom-0 left-0 right-0 bg-white border-t px-4 py-2 flex items-center space-x-2">
+						<form class="flex flex-grow space-x-2" @submit.prevent="sendChat">
+							<input type="text" class="border rounded px-3 py-2 flex-grow" v-model="chatInput"
+								:readonly="searchOngoing" placeholder="メッセージを入力..." />
+							<input type="submit" class="bg-blue-500 text-white rounded px-4 py-2" value="送信" />
+						</form>
+						<input type="button"
+							:class="'rounded px-4 py-2 ' + (voiceOngoing ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-700') + (speechRecognitionAvailable ? '' : ' grayscale')"
+							:value="voiceOngoing ? '停止' : '音声'" @click="voiceInput" />
+						<label class="flex items-center text-sm text-gray-700 ml-2">
+							<input type="checkbox" v-model="voiceAutoSend" class="mr-1" />音声自動送信
+						</label>
+					</div> -->
+
+					<!-- エラーメッセージ -->
+					<p class="text-red-500 text-sm mt-2">{{ voiceErrorMessage }}</p>
+				</div>
 			</div>
-
-			<!-- メッセージ入力欄 -->
-			<div class="fixed bottom-0 left-0 right-0 bg-white border-t px-4 py-2 flex items-center space-x-2">
-				<form class="flex flex-grow space-x-2" @submit.prevent="sendChat">
-					<input type="text" class="border rounded px-3 py-2 flex-grow" v-model="chatInput"
-						:readonly="searchOngoing" placeholder="メッセージを入力..." />
-					<input type="submit" class="bg-blue-500 text-white rounded px-4 py-2" value="送信" />
-				</form>
-				<input type="button"
-					:class="'rounded px-4 py-2 ' + (voiceOngoing ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-700') + (speechRecognitionAvailable ? '' : ' grayscale')"
-					:value="voiceOngoing ? '停止' : '音声'" @click="voiceInput" />
-				<label class="flex items-center text-sm text-gray-700 ml-2">
-					<input type="checkbox" v-model="voiceAutoSend" class="mr-1" />音声自動送信
-				</label>
-			</div>
-
-			<!-- エラーメッセージ -->
-			<p class="text-red-500 text-sm mt-2">{{ voiceErrorMessage }}</p>
-		</div>
-	</div>
+	</div> 
 </template>
 

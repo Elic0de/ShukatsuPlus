@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-50 z-212">
+  <div class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50 z-212">
     <div class="flex space-x-4">
       <span class="size-2 bg-neutral-700 rounded-full animate-ping animation-delay-0"></span>
       <span class="size-2 bg-neutral-700 rounded-full animate-ping animation-delay-200"></span>

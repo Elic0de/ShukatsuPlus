@@ -4,13 +4,13 @@ import { postGas } from "@/scripts/gas";
 import { useToast } from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
+import { useSessionStore } from '@/stores/session'
 
+const store = useSessionStore()
 const $toast = useToast();
 const shownTryIds = {};
 
 const { login, state } = inject('auth')
-
-
 const email = ref('')
 const password = ref('')
 
@@ -69,6 +69,7 @@ const dologin = ref({
 											sessionId.value = resp2["session_id"];
 											username.value = dologin.value.userId;
 											login( username.value, sessionId.value);
+											store.login(sessionId.value, username.value);
 											dologin.value.trying = false;
 										}
 									} else if (resp2["status"] === "denied") {

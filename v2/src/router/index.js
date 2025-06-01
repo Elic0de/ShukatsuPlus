@@ -1,10 +1,12 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
-import Welecome from '@/views/Welecome.vue'
+import Welcome from '@/views/Welcome.vue'
 // 
 import AuthPage from '@/views/auth/AuthPage.vue'
 import SignUp from '@/views/auth/Login.vue'
 import LoginPage from '@/views/auth/LoginPage.vue'
+import AccountManager from '@/components/auth/AccountManager.vue'
+
 //
 import RoomCreate from '@/views/interview/RoomCreate.vue'
 import Room from '@/views/interview/Room.vue'
@@ -21,8 +23,13 @@ import ExamPage from '@/views/exam/ExamPage.vue'
 import ReviewPage from '@/views/exam/ReviewPage.vue'
 import LineAuth from '@/views/auth/LineAuth.vue'
 
+import Feedback from '@/views/interview/Feedback.vue'
+import InterviewChat from '@/views/interview/InterviewChat.vue'
+
+import { applySessionGuard } from '@/router/guards/sessionGuard'
+
 const routes = [
-  { path: '/', component: Welecome },
+  { path: '/', component: Welcome },
   { path: '/lesson', component: Lesson, meta: { showBottomNav: true } },
   { path: '/profile', component: Profile, meta: { showBottomNav: true } },
   { path: '/leaderboard', component: LeaderboardPage, meta: { showBottomNav: true }  },
@@ -38,7 +45,7 @@ const routes = [
   // { path: '/spi/review/:id', component: ExamResult, props: true },
 
   { path: '/auth', component: AuthPage },
-  { path: '/login', component: LoginPage   },
+  { path: '/login', component: AccountManager  },
   { path: '/signup', component: SignUp },
   { path: '/oauth/line', component: LineAuth },
 ]
@@ -47,5 +54,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 })
+
+applySessionGuard(router)
 
 export default router

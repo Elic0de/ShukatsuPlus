@@ -20,19 +20,23 @@
 
 
 <script setup>
-import { ref, computed, inject, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { postGas } from "@/scripts/gas";
+import { useRouter } from 'vue-router'
+import { useSessionStore } from '@/stores/session'
+
 import CallUserCard from '@/components/interview/CallUserCard.vue';
 import RecentCallItem from '@/components/interview/RecentCallItem.vue';
-import { useRouter } from 'vue-router'
+
 
 const CACHE_KEY = "room_list_cache";
-const CACHE_TTL_MS = 5 * 60 * 1000; // 5分
+const CACHE_TTL_MS = 60 * 60 * 1000; // 1時間
 
-const { state } = inject('auth')
-const emit = defineEmits(["callbackMeWhenActive", "set-loading"]);	
+const emit = defineEmits(["callbackMeWhenActive"]);	
 
-const isLoggedIn = computed(() => !!state.sessionId);
+const session = useSessionStore();
+
+const isSessionValid = session.isSessionValid;
 
 const selectedRoomId = ref("");
 const talkTitle = ref("");
@@ -75,16 +79,16 @@ function saveRoomsToCache(data) {
  * 部屋一覧をAPIから取得し、キャッシュも更新
  */
 function fetchRoomsFromApi() {
+
     updating.value = true;
-    emit('set-loading', true);
     error.value = "部屋一覧を取得中…";
 
     const xhr = postGas("/api/0.1/room/query_user", {
-        session_id: state.sessionId,
+        session_id: session.data.value.sessionId,
     }, {
         loadend: () => { updating.value = false; },
-        abort: () => { error.value = "問題が発生しました"; emit('set-loading', false); },
-        error: () => { error.value = "問題が発生しました"; emit('set-loading', false); },
+        abort: () => { error.value = "問題が発生しました"; },
+        error: () => { error.value = "問題が発生しました"; },
         load: () => {
             try {
                 const resp = JSON.parse(xhr.responseText);
@@ -95,10 +99,8 @@ function fetchRoomsFromApi() {
                 error.value = "";
                 rooms.value = resp;
                 saveRoomsToCache(resp);
-                emit('set-loading', false);
             } catch (exception) {
                 error.value = "問題が発生しました: " + exception;
-                emit('set-loading', false);
             }
         },
     });
@@ -108,7 +110,7 @@ function fetchRoomsFromApi() {
  * 部屋一覧をキャッシュ優先で取得
  */
 function updateRoomList() {
-    if (!isLoggedIn.value) {
+    if (!isSessionValid.value) {
         rooms.value = [];
         error.value = "ログインしてください";
         return;
@@ -133,7 +135,7 @@ const onTalkTitleChanged = (v) => {
 }
 
 const updateRoomListIfEmpty = () => {
-    if (isLoggedIn.value && rooms.value.length === 0) {
+    if (isSessionValid.value && rooms.value.length === 0) {
         updateRoomList();
     }
 };

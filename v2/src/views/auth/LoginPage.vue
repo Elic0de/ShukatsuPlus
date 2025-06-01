@@ -4,8 +4,11 @@ import { postGas } from "@/scripts/gas";
 import { useToast } from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
+
+import { useSessionStore } from '@/stores/session'
 import router from "@/router";
 
+const store = useSessionStore()
 const $toast = useToast();
 const shownTryIds = {};
 
@@ -64,7 +67,8 @@ const dologin = ref({
                                             sessionId.value = resp2["session_id"];
                                             username.value = dologin.value.userId;
                                             dologin.value.trying = false;
-                                            router.push("leaderboard");
+
+                                            store.login(resp2["session_id"], dologin.value.userId);
                                         }
                                     } else if (resp2["status"] === "denied") {
                                         clearInterval(intv);
