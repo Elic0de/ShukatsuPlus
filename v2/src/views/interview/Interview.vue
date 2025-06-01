@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-	import { ref, onMounted } from "vue";
+	import { ref, nextTick } from "vue";
 	import { postGas } from "@/scripts/gas";
 	import { useRouter } from "vue-router";
 	import { useSessionStore } from "@/stores/session";
@@ -147,7 +147,7 @@
 		}
 	};
 
-	onMounted(() => {
+	nextTick(() => {
 		updateRoomListIfEmpty();
 	});
 
