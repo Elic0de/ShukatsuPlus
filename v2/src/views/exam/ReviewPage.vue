@@ -2,6 +2,7 @@
   <Loading v-if="loading" />
   <div v-else>
       <div class="px-6 py-4 font-sans text-[17px] leading-[20px] font-medium text-neutral-600">
+        <StickyBar/>
         <div class="pb-52" v-if="currentPart">
           <h2 class="mb-2 border-b-2 py-2 text-2xl font-bold">{{ currentQuestion.title }}</h2>
 
@@ -34,6 +35,8 @@ import { useExamStore } from '@/stores/exam'
 import ReviewHeader from '@/components/exam/review/ReviewHeader.vue'
 import ReviewContent from '@/components/exam/review/ReviewContent.vue'
 import ReviewNavigation from '@/components/exam/review/ReviewNavigation.vue'
+import StickyBar from '@/components/ui/StickyBar.vue'
+
 
 import Loading from '@/components/ui/LoadingV2.vue'
 

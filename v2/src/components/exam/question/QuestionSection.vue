@@ -1,7 +1,8 @@
 <template>
   <div class="px-6 pt-4 pb-52">
+    <StickyBar/>
     <h2 class="mb-2 border-b-2 py-2 text-2xl font-bold">{{ question.title }}</h2>
-
+    
     <div class="flex flex-col">
         <div class="border-n pb-4 text-xl font-bold text-neutral-500">
           <span>この問題は2問組です。</span>
@@ -12,7 +13,7 @@
         </div>
     </div>
 
-    <div class="sticky top-0 mb-2 border-b-2 border-neutral-200 bg-white p-2 leading-7 font-normal">
+    <div class="sticky top-[] mb-2 border-b-2 border-neutral-200 bg-white p-2 leading-7 font-normal">
       <p class="pb-6">{{ part.question }}</p>
     </div>
     
@@ -31,16 +32,17 @@
 </template>
 
 <script setup>
-import Timer from './Timer.vue'
+    import Timer from './Timer.vue'
+    import StickyBar from '@/components/ui/StickyBar.vue'
 
-const props = defineProps({
-  question: Object,
-  part: Object,
-  answers: Object,
-  totalTime: Number,
-  localTimeLeft: Number
-})
+    const props = defineProps({
+        question: Object,
+        part: Object,
+        answers: Object,
+        totalTime: Number,
+        localTimeLeft: Number
+    })
 
 
-defineEmits(['select'])
+    defineEmits(['select'])
 </script>

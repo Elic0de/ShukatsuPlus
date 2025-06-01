@@ -20,15 +20,14 @@
               @click="startExam(exam.exam_id)"
             />
           </section>
-          <!-- <section class="mt-6">
+          <section class="mt-6">
             <h3 class="mb-4 text-2xl font-bold text-neutral-700 text-left">受験履歴</h3>
             <Card
               v-for="exam in examStore.data"
               :key="exam.exam_id"
               :title="exam.title"
-              @click="startExam(exam.exam_id)"
             />
-          </section> -->
+          </section>
         </section>
       </main>
      </div>

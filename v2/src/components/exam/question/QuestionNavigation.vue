@@ -19,10 +19,10 @@
 </template>
 
 <script setup>
-const props = defineProps({
-  question: Object,
-  selectedPartIndex: Number
-})
+    const props = defineProps({
+        question: Object,
+        selectedPartIndex: Number
+    })
 
-defineEmits(['selectPart', 'next'])
+    defineEmits(['selectPart', 'next'])
 </script>
