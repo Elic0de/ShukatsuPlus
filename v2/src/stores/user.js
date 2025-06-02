@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { api } from "@/apis/apiFactory";
 import { setWithExpiry, getWithExpiry, removeItem } from "@/utils/storage";
 
