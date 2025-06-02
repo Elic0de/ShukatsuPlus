@@ -216,9 +216,10 @@
 	);
 
 	const fakeLineLogin = () => {
-		dologin.value.userId = "dev20";
-		dologin.value.password = "dev20";
-		dologin.value.exec();
+		router.push("/oauth/line")
+		// dologin.value.userId = "dev20";
+		// dologin.value.password = "dev20";
+		// dologin.value.exec();
 	};
 </script>
 
