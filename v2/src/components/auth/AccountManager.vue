@@ -214,6 +214,12 @@
 			dologin.value.trying ||
 			dologout.value.trying
 	);
+
+	const fakeLineLogin = () => {
+		dologin.value.userId = "dev20";
+		dologin.value.password = "dev20";
+		dologin.value.exec();
+	};
 </script>
 
 <template>
@@ -265,7 +271,7 @@
 			</div>
 
 			<button
-				@click="$emit('continue')"
+				@click="fakeLineLogin"
 				class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"
 			>
 				LINEでログインする
