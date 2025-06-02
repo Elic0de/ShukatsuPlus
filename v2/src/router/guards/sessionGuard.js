@@ -5,13 +5,15 @@ export function applySessionGuard(router) {
     const session = useSessionStore()
 
     if (to.path === '/') {
+      console.log(session.isSessionValid.value ? 'Session is valid' : 'Session is invalid')
+      console.log(session.userId.value)
       next(session.isSessionValid ? '/lesson' : '/login')
       return
     }
 
     if (to.path === '/login') {
       // 既にログイン済みなら redirect クエリがあればそこへ、それ以外は /lesson
-      if (session.isSessionValid) {
+      if (session.isSessionValid.value) {
         const redirect = (to.query.redirect) || '/lesson'
         next(redirect)
       } else {
@@ -21,7 +23,7 @@ export function applySessionGuard(router) {
     }
 
     // ログインが必要なページに未ログインで来た場合
-    if (!session.isSessionValid) {
+    if (!session.isSessionValid.value) {
       next({
         path: '/login',
         query: { redirect: to.fullPath },

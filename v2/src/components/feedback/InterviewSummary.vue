@@ -3,7 +3,7 @@
     <h2 v-if="titleText" class="text-sm font-semibold text-neutral-500 mb-2">
       {{ titleText }}
     </h2>
-    <p class="text-sm leading-relaxed whitespace-pre-wrap">
+    <p class="text-sm leading-relaxed">
       {{ summaryText }}
     </p>
 

@@ -36,7 +36,7 @@ const routes = [
 
   { path: '/room/create', name: 'RoomCreate', component: RoomCreate },
   { path: '/room/:roomId', name: 'Room', component: Room, props: true },
-  { path: '/room/feedback/:roomId', component: Feedback, props: true },
+  { path: '/interview/feedback', component: Feedback, props: true },
 
   { path: '/chat', component: InterviewChat, props: true },
 

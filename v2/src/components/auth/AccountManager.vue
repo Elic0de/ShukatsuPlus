@@ -10,13 +10,17 @@ const store = useSessionStore()
 const $toast = useToast();
 const shownTryIds = {};
 
-const { login, state } = inject('auth')
 const email = ref('')
 const password = ref('')
 
 defineEmits(["continue"]);
 const sessionId = defineModel("sessionId");
 const username = defineModel("username");
+
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
 
 const isLoggedIn = computed(() => !!sessionId.value);
 
@@ -68,8 +72,11 @@ const dologin = ref({
 											$toast.success("ログインしました!", { position: "top" });
 											sessionId.value = resp2["session_id"];
 											username.value = dologin.value.userId;
-											login( username.value, sessionId.value);
+											
+											//login( username.value, sessionId.value);
 											store.login(sessionId.value, username.value);
+											const redirect = route.query.redirect || '/'
+  											router.push(redirect)
 											dologin.value.trying = false;
 										}
 									} else if (resp2["status"] === "denied") {

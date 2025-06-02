@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <div class="sticky top-[] mb-2 border-b-2 border-neutral-200 bg-white p-2 leading-7 font-normal">
+    <div class="sticky top-[30px] mb-2 border-b-2 border-neutral-200 bg-white p-2 leading-7 font-normal">
       <p class="pb-6">{{ part.question }}</p>
     </div>
     
