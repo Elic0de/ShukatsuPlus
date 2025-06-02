@@ -9,7 +9,7 @@ export const useUserStore = defineStore("user", () => {
 	const user = ref(getWithExpiry("user") || null);
 	const isLoading = ref(false);
 	const error = ref(null);
-
+	
 	const fetchUser = async () => {
 		isLoading.value = true;
 		try {
