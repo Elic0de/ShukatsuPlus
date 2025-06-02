@@ -1,11 +1,17 @@
-import liff from "@line/liff";
+export const useLiff = async () => {
+	const liff = (async function () {
+		try {
+			return await import("@line/liff");
+		} catch (e) {
+			return null;
+		}
+	})();
 
-export const useLiff = () => {
-  const login = () => {
-    if (!liff.isLoggedIn()) liff.login();
-  };
+	const login = () => {
+		if (liff && !liff.isLoggedIn()) liff.login();
+	};
 
-  const getIdToken = () => liff.getIDToken();
+	const getIdToken = () => liff && liff.getIDToken();
 
-  return { login, getIdToken };
+	return { login, getIdToken };
 };
