@@ -5,7 +5,11 @@ export function applySessionGuard(router) {
 		const session = useSessionStore();
 
 		if (to.path === "/") {
-			console.log(session.isSessionValid.value ? 'Session is valid' : 'Session is invalid');
+			console.log(
+				session.isSessionValid.value
+					? "Session is valid"
+					: "Session is invalid"
+			);
 			console.log(session.userId.value);
 			next(session.isSessionValid.value ? "/lesson" : "/login");
 			return;

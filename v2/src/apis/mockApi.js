@@ -1,4 +1,4 @@
-const GAS_MENSETSU_BASE_URL = import.meta.env.GAS_MENSETSU_BASE_URL
+const GAS_MENSETSU_BASE_URL = import.meta.env.GAS_MENSETSU_BASE_URL;
 const delay = (ms = 500) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // モックデータ
@@ -29,7 +29,8 @@ const mockQuestions = [
 					260: "AからIのいずれでもない",
 				},
 				correctAnswer: "251",
-				explanation: "1. 初期貸借の整理：XはYから1500円受け取り、Zに1000円支払うので、Xの純貸借は+500円。YはXに1500円支払い、Zから2000円受け取るので、Yの純貸借は+500円。ZはYに2000円支払い、Xから1000円受け取るので、Zの純貸借は-1000円。 2. パーティー代の精算：費用総額4500円、1人あたり1500円負担。Xが全額支払ったので、Xは4500円支払い、負担1500円なので、3000円立て替えた(+3000円)。YとZは各自1500円をXに支払う必要がある(-1500円)。 3. 総合精算額：X = +500 (初期) + 3000 (パーティー) = +3500円 (受け取る)。Y = +500 (初期) - 1500 (パーティー) = -1000円 (支払う)。Z = -1000 (初期) - 1500 (パーティー) = -2500円 (支払う)。 4. 支払いの流れ：ZがXにd円支払うことでXの精算が完了するので、Xが受け取るべき3500円がdとなる。d = 3500円。",
+				explanation:
+					"1. 初期貸借の整理：XはYから1500円受け取り、Zに1000円支払うので、Xの純貸借は+500円。YはXに1500円支払い、Zから2000円受け取るので、Yの純貸借は+500円。ZはYに2000円支払い、Xから1000円受け取るので、Zの純貸借は-1000円。 2. パーティー代の精算：費用総額4500円、1人あたり1500円負担。Xが全額支払ったので、Xは4500円支払い、負担1500円なので、3000円立て替えた(+3000円)。YとZは各自1500円をXに支払う必要がある(-1500円)。 3. 総合精算額：X = +500 (初期) + 3000 (パーティー) = +3500円 (受け取る)。Y = +500 (初期) - 1500 (パーティー) = -1000円 (支払う)。Z = -1000 (初期) - 1500 (パーティー) = -2500円 (支払う)。 4. 支払いの流れ：ZがXにd円支払うことでXの精算が完了するので、Xが受け取るべき3500円がdとなる。d = 3500円。",
 			},
 			{
 				id: 52,
@@ -242,13 +243,16 @@ export const mockApi = {
 		await delay();
 		return mockQuestions;
 	},
-    postIdTokenToGAS: async (idToken) => {
-        const res = await fetch(`${GAS_MENSETSU_BASE_URL}?path=/api/0.1/oauth/line`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain' },
-            body: JSON.stringify({ idToken }),
-        })
-        if (!res.ok) throw new Error('認証エラー')
-        return res.json()
-    }
+	postIdTokenToGAS: async (idToken) => {
+		const res = await fetch(
+			`${GAS_MENSETSU_BASE_URL}?path=/api/0.1/oauth/line`,
+			{
+				method: "POST",
+				headers: { "Content-Type": "text/plain" },
+				body: JSON.stringify({ idToken }),
+			}
+		);
+		if (!res.ok) throw new Error("認証エラー");
+		return res.json();
+	},
 };

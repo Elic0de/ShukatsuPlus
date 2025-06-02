@@ -1,5 +1,5 @@
 export const useLiff = async () => {
-	const liff = (async function() {
+	const liff = (async function () {
 		try {
 			return await import("@line/liff");
 		} catch (e) {

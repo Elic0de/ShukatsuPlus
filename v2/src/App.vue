@@ -11,8 +11,7 @@
 	});
 
 	provide("auth", {
-		login: function() {
-		},
+		login: function () {},
 		state: {
 			sessionId: "",
 		},

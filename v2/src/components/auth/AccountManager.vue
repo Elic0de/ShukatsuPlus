@@ -17,10 +17,10 @@
 	const sessionId = defineModel("sessionId");
 	const username = defineModel("username");
 
-	import { useRouter, useRoute } from 'vue-router';
+	import { useRouter, useRoute } from "vue-router";
 
 	const router = useRouter();
-	const route = useRoute()
+	const route = useRoute();
 
 	const isLoggedIn = computed(() => !!sessionId.value);
 
@@ -111,7 +111,10 @@
 															sessionId.value,
 															username.value
 														);
-														const redirect = route.query.redirect || '/';
+														const redirect =
+															route.query
+																.redirect ||
+															"/";
 														router.push(redirect);
 														dologin.value.trying = false;
 													}

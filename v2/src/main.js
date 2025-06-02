@@ -10,19 +10,21 @@ import router from "./router";
 import ToastPlugin from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-bootstrap.css";
 
-import("@line/liff").then(() => {
-	liff.init({
-		liffId: import.meta.env.VITE_LIFF_ID,
+import("@line/liff")
+	.then(() => {
+		liff.init({
+			liffId: import.meta.env.VITE_LIFF_ID,
+		});
+	})
+	.catch((e) => {
+		console.warn(e);
+	})
+	.finally(() => {
+		const pinia = createPinia();
+		const app = createApp(App);
+
+		app.use(pinia);
+		app.use(router);
+		app.use(ToastPlugin);
+		app.mount("#app");
 	});
-}).catch(e => {
-	console.warn(e);
-}).finally(() => {
-	const pinia = createPinia();
-	const app = createApp(App);
-
-	app.use(pinia);
-	app.use(router);
-	app.use(ToastPlugin);
-	app.mount("#app");
-});
-

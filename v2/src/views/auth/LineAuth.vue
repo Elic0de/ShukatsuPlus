@@ -2,11 +2,11 @@
 
 <script setup>
 	import { onMounted } from "vue";
-    import { useLiff } from "@/composables/useLiff";
-    import { useSessionStore } from '@/stores/session';
+	import { useLiff } from "@/composables/useLiff";
+	import { useSessionStore } from "@/stores/session";
 
-    const { login, getIdToken } = await useLiff();
-    const store = useSessionStore();
+	const { login, getIdToken } = await useLiff();
+	const store = useSessionStore();
 
 	onMounted(async () => {
 		login();
@@ -16,7 +16,7 @@
 		if (idToken) {
 			const response = await postIdTokenToGAS(idToken);
 
-            store.login(response.sessionId, response.userId);
+			store.login(response.sessionId, response.userId);
 			// authStore.setSession({
 			//     sessionId: response.sessionId,
 			//     userName: profile.displayName,
