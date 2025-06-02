@@ -551,12 +551,13 @@
 				<div
 					class="fixed bottom-0 left-0 right-0 bg-white px-4 py-4 flex items-center space-x-2"
 				>
-					<input
-						v-model="chatInput"
-						@keyup.enter="sendChat"
-						class="w-full p-4 border-neutral-400 border-2 rounded"
-						placeholder="面接官の質問に答えてください"
-					/>
+					<form class="flex flex-grow space-x-2" @submit.prevent="sendChat">
+						<input
+							v-model="chatInput"
+							class="w-full p-4 border-neutral-400 border-2 rounded"
+							placeholder="面接官の質問に答えてください"
+						/>
+					</form>
 				</div>
 
 				<!-- メッセージ入力欄 -->
