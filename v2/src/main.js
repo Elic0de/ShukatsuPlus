@@ -11,7 +11,8 @@ import ToastPlugin from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-bootstrap.css";
 
 import("@line/liff")
-	.then(() => {
+	.then((module) => {
+		const liff = module.default
 		liff.init({
 			liffId: import.meta.env.VITE_LIFF_ID,
 		});
