@@ -8,7 +8,7 @@
 		>
 			{{ titleText }}
 		</h2>
-		<p class="text-sm leading-relaxed whitespace-pre-wrap">
+		<p class="text-sm leading-relaxed">
 			{{ summaryText }}
 		</p>
 

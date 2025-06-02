@@ -20,7 +20,7 @@ export const gasApi = {
 
 	async postIdTokenToGAS(idToken) {
 		const res = await fetch(
-			`${GAS_MENSETSU_BASE_URL}?path=/api/0.1/line/oauth`,
+			`${GAS_MENSETSU_BASE_URL}?path=/api/0.1/oauth/line`,
 			{
 				method: "POST",
 				headers: { "Content-Type": "text/plain" },

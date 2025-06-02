@@ -14,7 +14,7 @@
 				問{{ idx + 1 }}
 			</button>
 		</div>
-		<div class="px-4 py-4 flex">
+		<div class="px-4 py-4 flex gap-3">
 			<button @click="$emit('prev')" class="btn-next">
 				<span>前へ</span>
 			</button>

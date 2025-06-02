@@ -33,7 +33,7 @@
 			<div>
 				<span class="text-sm font-semibold text-neutral-500">正解</span>
 				<div
-					class="mt-1 rounded-xl border-2 border-green-400 bg-green-50 px-3 py-2 text-lg font-bold text-green-700 shadow-sm"
+					class="mt-1 rounded-xl border-green-400 bg-green-50 px-3 py-2 text-lg font-bold text-green-700"
 				>
 					{{ part.choices[correctAnswer] }}
 				</div>
@@ -44,7 +44,7 @@
 					>あなたの解答</span
 				>
 				<div
-					class="mt-1 rounded-xl border-2 border-neutral-300 bg-white px-3 py-2 text-lg font-bold text-neutral-700 shadow-sm"
+					class="mt-1 rounded-xl border-2 border-neutral-300 bg-white px-3 py-2 text-lg font-bold text-neutral-700"
 				>
 					{{ part.choices[userAnswer] || "未解答" }}
 				</div>
