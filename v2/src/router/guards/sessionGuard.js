@@ -15,7 +15,7 @@ export function applySessionGuard(router) {
 			return;
 		}
 
-		if (to.path === "/login") {
+		if (to.path === "/login" || to.path === "/oauth/line") {
 			// 既にログイン済みなら redirect クエリがあればそこへ、それ以外は /lesson
 			if (session.isSessionValid.value) {
 				const redirect = to.query.redirect || "/lesson";
