@@ -54,20 +54,23 @@
 	import { onMounted } from "vue";
 	import { useRouter } from "vue-router";
 	import { useExamStore } from "@/stores/exam";
+	import { useSessionStore } from "@/stores/session";
 	import Card from "@/components/ui/Card.vue";
 	import ExamListSkeleton from "@/components/exam/ExamListSkeleton.vue";
 
 	const router = useRouter();
 	const examStore = useExamStore();
+	const sessionStore = useSessionStore();
 
 	onMounted(() => {
 		examStore.load();
 	});
 
 	async function startExam(examId) {
-		const session_id = await examStore.startExam(examId);
+		const session_id = sessionStore.sessionId.value;
+		const exam_session_id = await examStore.startExam(examId);
 		if (!session_id) return;
-		router.push(`/spi/${session_id}`);
+		router.push(`/spi/${exam_session_id}`);
 	}
 
 	const goToReview = (examId) => {

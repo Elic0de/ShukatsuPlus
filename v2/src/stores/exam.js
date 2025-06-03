@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, useId } from "vue";
 import { api } from "@/apis/apiFactory";
 import { createCachedStore } from "./factories/useCachedStoreFactory";
 
@@ -14,9 +14,9 @@ export const useExamStore = defineStore("exam", () => {
 	const localTimeLeft = ref(30);
 	const currentIndex = ref(0);
 
-	const startExam = async (examId) => {
+	const startExam = async (examId, userId) => {
 		try {
-			const session = await api.startExam(examId);
+			const session = await api.startExam(examId, userId);
 			return session.session_id;
 		} catch (error) {
 			store.error.value = error.message || "試験の開始に失敗しました";

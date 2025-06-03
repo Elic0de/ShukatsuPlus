@@ -40,6 +40,11 @@ export const gasApi = {
         const res = await fetch(`${VITE_GAS_SPI_BASE_URL}?action=getExams`);
 
         if (!res.ok) throw new Error("試験情報取得失敗");
+
+    async startExam(examId, userId) {
+        const res = await fetch(`${VITE_GAS_SPI_BASE_URL}?action=startExam&user_id=${userId}&exam_id=${examId}`);
+        if (!res.ok) throw new Error("試験開始失敗");
+
         return res.json();
     }
 };
