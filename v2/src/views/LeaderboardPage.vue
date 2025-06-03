@@ -36,6 +36,7 @@
 				:username="item.username"
 				:score="item.score"
 				:highlight="item.id === 1"
+				:src="a"
 			/>
 		</div>
 	</div>

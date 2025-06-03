@@ -1,27 +1,22 @@
-<template></template>
+<template>
+	<LoadingV2/>
+</template>
 
 <script setup>
     import { watch } from "vue";
-	import { useLiff } from "@/composables/useLiff";
-	import { useSessionStore } from "@/stores/session";
-    import { useUserStore } from "@/stores/user";
-    import { api } from "@/apis/apiFactory";
+    import { useAuth } from "@/composables/useAuth";
     import router from "@/router";
-    
-	const { login, getIdToken, isReady } = useLiff();
-	const store = useSessionStore();
-    const userStore = useUserStore();
+    import LoadingV2 from "@/components/ui/LoadingV2.vue";
+
+    const { isReady, authenticateWithLiff } = useAuth();
 
     watch(isReady, async (ready) => {
         if (ready) {
-            login();
-            const idToken = getIdToken();
-            console.log(idToken);
-            if (idToken) {
-                const response = await api.postIdTokenToGAS(idToken);
-                store.login(response.sessionId, response.userId);
-                userStore.user.value.username = response.userName;
+            try {
+                await authenticateWithLiff();
                 router.push("/");
+            } catch (e) {
+                console.error("認証エラー:", e);
             }
         }
     });

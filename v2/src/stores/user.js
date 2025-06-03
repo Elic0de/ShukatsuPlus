@@ -1,57 +1,41 @@
-import { defineStore } from "pinia";
-import { ref, computed } from "vue";
-import { api } from "@/apis/apiFactory";
-import { setWithExpiry, getWithExpiry, removeItem } from "@/utils/storage";
+// stores/user.ts
+import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
 
-const SESSION_TTL = 1000 * 60 * 60 * 24; // 24時間
+export const useUserStore = defineStore('user', () => {
+  const id = ref(null)
+  const name = ref('Guest')
+  const email = ref(null)
+  const avatar = ref(null)
+  const joinedAt = ref(new Date())
 
-export const useUserStore = defineStore("user", () => {
-	const user = ref(getWithExpiry("user") || null);
-	const isLoading = ref(false);
-	const error = ref(null);
-	
-	const fetchUser = async () => {
-		isLoading.value = true;
-		try {
-			const res = await api.getUserInfo();
-			user.value = res;
-			setWithExpiry("user", res, SESSION_TTL);
-		} catch (err) {
-			console.error(err);
-			error.value = "ユーザー情報の取得に失敗しました";
-		} finally {
-			isLoading.value = false;
-		}
-	};
+  const isLoggedIn = computed(() => id.value !== null)
 
-	const updateUserName = async (newName) => {
-		isLoading.value = true;
-		try {
-			const res = await api.updateUserName(newName);
-			user.value.name = newName;
-			setWithExpiry("user", user.value, SESSION_TTL);
-		} catch (err) {
-			console.error(err);
-			error.value = "ユーザー名の更新に失敗しました";
-		} finally {
-			isLoading.value = false;
-		}
-	};
+  const updateUser = (updates) => {
+    if (updates.id !== undefined) id.value = updates.id
+    if (updates.name !== undefined) name.value = updates.name
+    if (updates.email !== undefined) email.value = updates.email
+    if (updates.avatar !== undefined) avatar.value = updates.avatar
+	joinedAt.value = new Date()
+  }
 
-	const logout = () => {
-		user.value = null;
-		removeItem("user");
-	};
+  const clearUser = () => {
+    id.value = null
+    name.value = 'Guest'
+    email.value = null
+    avatar.value = null
+  }
 
-	const isLoggedIn = computed(() => !!user.value);
-
-	return {
-		user,
-		isLoading,
-		error,
-		fetchUser,
-		updateUserName,
-		logout,
-		isLoggedIn,
-	};
-});
+  return {
+    id,
+    name,
+    email,
+    avatar,
+	joinedAt,
+    isLoggedIn,
+    updateUser,
+    clearUser
+  }
+}, {
+  persist: true
+})

@@ -1,4 +1,5 @@
 const GAS_MENSETSU_BASE_URL = import.meta.env.GAS_MENSETSU_BASE_URL;
+
 const delay = (ms = 500) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // モックデータ
@@ -243,16 +244,12 @@ export const mockApi = {
 		await delay();
 		return mockQuestions;
 	},
+
 	postIdTokenToGAS: async (idToken) => {
-		const res = await fetch(
-			`${GAS_MENSETSU_BASE_URL}?path=/api/0.1/oauth/line`,
-			{
-				method: "POST",
-				headers: { "Content-Type": "text/plain" },
-				body: JSON.stringify({ idToken }),
-			}
-		);
-		if (!res.ok) throw new Error("認証エラー");
-		return res.json();
+		return Promise.resolve([{
+            username: "ひいろ",
+            userId: "Ut",
+            sessionId: "53a6ae5f-d45a-48d5-b38c-eab9b006e7e2"
+        }]);;
 	},
 };

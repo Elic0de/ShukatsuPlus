@@ -35,7 +35,7 @@
 		</div>
 
 		<!-- アバター（仮表示） -->
-		<UserAvatar class="ml-3 mr-7" />
+		<UserAvatar class="ml-3 mr-7" src="a" />
 		<!-- <div class="relative mr-7 ml-3 size-[48px]">
         <div class="inline-flex size-[48px] items-center justify-center rounded-full border-2 border-dashed border-neutral-300 align-middle text-neutral-300">O</div>
     </div> -->
