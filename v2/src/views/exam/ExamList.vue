@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<!-- <HeaderBar /> -->
-		<div class="m-0 flex w-full flex-col pb-20 text-center">
+		<ExamListSkeleton v-if="examStore.isLoading" />
+		<div v-else class="m-0 flex w-full flex-col pb-20 text-center">
 			<div class="sticky z-10 bg-white">
 				<div class="mt-6 mb-5 text-[25px] font-bold">SPI模擬試験</div>
 				<div class="h-6.5 items-center">
@@ -54,6 +55,7 @@
 	import { useRouter } from "vue-router";
 	import { useExamStore } from "@/stores/exam";
 	import Card from "@/components/ui/Card.vue";
+	import ExamListSkeleton from "@/components/exam/ExamListSkeleton.vue";
 
 	const router = useRouter();
 	const examStore = useExamStore();

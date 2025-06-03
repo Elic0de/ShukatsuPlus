@@ -35,4 +35,11 @@ export const gasApi = {
             };
         }
     },
+
+    async fetchAvailableExams() {
+        const res = await fetch(`${VITE_GAS_SPI_BASE_URL}?action=getExams`);
+
+        if (!res.ok) throw new Error("試験情報取得失敗");
+        return res.json();
+    }
 };
