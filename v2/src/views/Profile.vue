@@ -13,7 +13,7 @@
 						:nickname="userStore.name"
 						:joinedAt="userStore.joinedAt"
 					/>
-					<ProfileStats :stats="profile.stats" />
+					<!-- <ProfileStats :stats="profile.stats" /> -->
 				</div>
 			</div>
 		</div>
