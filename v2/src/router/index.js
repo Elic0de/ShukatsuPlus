@@ -48,7 +48,7 @@ const routes = [
 	{ path: "/auth", component: AuthPage },
 	{ path: "/login", component: AccountManager },
 	{ path: "/signup", component: SignUp },
-	{ path: "/oauth/line", component: LineAuth, props: true },
+	{ path: "/oauth/line", component: LineAuth },
 ];
 
 const router = createRouter({
