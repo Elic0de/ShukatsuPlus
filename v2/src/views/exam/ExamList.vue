@@ -32,14 +32,14 @@
 							受験履歴
 						</h3>
 						<Card
-							v-for="exam in examStore.data"
-							:key="exam.exam_id"
+							v-for="exam in examStore.history"
+							:key="exam.session_id"
 							:title="exam.title"
-							:date="'2025/05/31'"
+							:date="exam.end_time"
 							@click="
 								() =>
 									goToReview(
-										'0cffbc57-1ce6-4a05-8de7-cbf3bca36720'
+										exam.session_id
 									)
 							"
 						/>
@@ -63,13 +63,15 @@
 	const sessionStore = useSessionStore();
 
 	onMounted(() => {
-		examStore.load();
+		examStore.load();	
+		examStore.getExamHistory(sessionStore.sessionId.value);
+		console.log(examStore.history.value)
 	});
 
 	async function startExam(examId) {
-		const session_id = sessionStore.sessionId.value;
-		const exam_session_id = await examStore.startExam(examId);
-		if (!session_id) return;
+		const userId = sessionStore.userId.value;
+		const exam_session_id = await examStore.startExam(examId, userId);
+		if (!exam_session_id) return;
 		router.push(`/spi/${exam_session_id}`);
 	}
 

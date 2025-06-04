@@ -29,7 +29,7 @@
 
 	const handleNext = async () => {
 		const isLastQuestion = store.currentIndex >= store.questions.length - 1;
-
+		console.log(store.answers)
 		if (isLastQuestion) {
 			await store.submitAnswer(sessionId, store.answers);
 		} else {
