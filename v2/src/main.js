@@ -11,24 +11,18 @@ import router from "./router";
 import ToastPlugin from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-bootstrap.css";
 
-import("@line/liff")
-	.then((module) => {
-		const liff = module.default
-		liff.init({
-			liffId: import.meta.env.VITE_LIFF_ID,
-		});
-	})
-	.catch((e) => {
-		console.warn(e);
-	})
-	.finally(() => {
-		const pinia = createPinia();
-		const app = createApp(App);
+import liff from "@line/liff";
 
-		pinia.use(piniaPluginPersistedstate)
+const pinia = createPinia();
+const app = createApp(App);
 
-		app.use(pinia);
-		app.use(router);
-		app.use(ToastPlugin);
-		app.mount("#app");
-	});
+pinia.use(piniaPluginPersistedstate)
+
+app.use(pinia);
+app.use(router);
+app.use(ToastPlugin);
+
+router.isReady().then(() => {
+  liff.init({ liffId: import.meta.env.VITE_LIFF_ID })
+  app.mount('#app')
+})

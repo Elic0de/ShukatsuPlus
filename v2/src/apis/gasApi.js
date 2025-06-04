@@ -9,7 +9,7 @@ const mensetsuApi = createApiClient(GAS_MENSETSU);
 export const gasApi = {
   // SPI関連
   async getUserInfo() {
-    return spiApi("?action=getUserInfo");
+    return spiApi("?action=getUser");
   },
 
   async updateUserStatus(userData) {
