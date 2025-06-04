@@ -31,11 +31,11 @@
 			<LeaderboardItem
 				v-else
 				v-for="(item, index) in leaderboardStore.leaderboard"
-				:key="item.id"
-				:rank="index + 1"
-				:username="item.username"
+				:key="item.user_id"
+				:rank="item.rank"
+				:username="item.name"
 				:score="item.score"
-				:highlight="item.id === 1"
+				:highlight="item.user_id === 1"
 				:src="a"
 			/>
 		</div>
