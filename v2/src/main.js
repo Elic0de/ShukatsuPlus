@@ -11,7 +11,7 @@ import router from "./router";
 import ToastPlugin from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-bootstrap.css";
 
-import("@line/liff")
+import liff from "@line/liff";
 
 const pinia = createPinia();
 const app = createApp(App);
