@@ -30,7 +30,6 @@ export const useAuth = () => {
 	};
 
 	const saveSession = (response) => {
-        console.log(response);
 		sessionStore.login(response.session_id, response.user_id);
 		userStore.updateUser({
 			id: response.user_id,

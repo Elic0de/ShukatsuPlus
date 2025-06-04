@@ -1,6 +1,7 @@
 <template>
+	<LoadingV2 v-if="isLoading"/>
 	<ExamView
-		v-if="store.questions && store.questions.length > 0"
+		v-else-if="store.questions && store.questions.length > 0"
 		:currentQuestionIndex="store.currentIndex"
 		:questions="store.questions"
 		:answers="store.answers"
@@ -13,23 +14,26 @@
 </template>
 
 <script setup>
-	import { onMounted } from "vue";
+	import { onMounted, ref } from "vue";
 	import { useRoute } from "vue-router";
 	import { useExamStore } from "@/stores/exam";
 	import ExamView from "@/components/exam/ExamView.vue";
+	import LoadingV2 from "@/components/ui/LoadingV2.vue"
 
 	const store = useExamStore();
 	const route = useRoute();
 	const sessionId = route.params.sessionId;
 
+	const isLoading = ref(true);
+
 	// Start exam and fetch details on component mount
 	onMounted(async () => {
 		await store.getQuestions(sessionId);
+		isLoading.value = false;
 	});
 
 	const handleNext = async () => {
 		const isLastQuestion = store.currentIndex >= store.questions.length - 1;
-		console.log(store.answers)
 		if (isLastQuestion) {
 			await store.submitAnswer(sessionId, store.answers);
 		} else {
