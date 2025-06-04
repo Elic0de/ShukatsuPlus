@@ -78,15 +78,24 @@ export const useExamStore = defineStore("exam", () => {
 		resetLocalTimer();
 	};
 
+    // 	const answers = ref({});
+	// const result = ref(null);
+	// const questions = ref([]);
+	// const review = ref([]);
+	// const totalTime = ref(60 * 35);
+	// const localTimeLeft = ref(30);
+	// const currentIndex = ref(0);
+    // const history = ref({});
+
     const reset = () => {
         resetLocalTimer();
-        answers.value = null;
+        answers.value = {};
         result.value = null;
-        questions.value = null;
-        review.value = null;
-        totalTime.value = null;
-        localTimeLeft.value = null;
-        currentIndex.value = null;
+        questions.value = [];
+        review.value = [];
+        totalTime.value = 60 * 35;
+        localTimeLeft.value = 30;
+        currentIndex.value = 0;
     }
 
 	return {
