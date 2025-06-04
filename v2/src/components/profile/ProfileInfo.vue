@@ -5,9 +5,11 @@
 				<h1 class="mb-1.5 text-2xl font-bold" dir="ltr">
 					{{ username }}
 				</h1>
-				<div class="text-neutral-400">{{ nickname }}</div>
-				<div class="text-neutral-500 mt-1">
-					<div class="_3KQMU">{{ joinedAt }}に参加</div>
+				<div class="flex gap-4 items-center">
+					<div class="text-neutral-400">@ {{ nickname }}</div>
+					<div class="text-neutral-500 mt-1">
+						<div class="_3KQMU">{{ formattedJoinedAt }}に参加</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -18,9 +20,18 @@
 </template>
 
 <script setup>
-	defineProps({
+	import { computed } from 'vue'
+
+	const props = defineProps({
 		username: String,
 		nickname: String,
 		joinedAt: String,
-	});
+	})
+
+	const formattedJoinedAt = computed(() => {
+		const date = new Date(props.joinedAt)
+		const year = date.getFullYear()
+		const month = date.getMonth() + 1
+		return `${year}年${month}月`
+	})
 </script>

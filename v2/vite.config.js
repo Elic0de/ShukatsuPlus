@@ -18,4 +18,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: {
+    allowedHosts: ['.ngrok-free.app'], // すべての ngrok-free.app ドメインを許可
+  }
 })

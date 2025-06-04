@@ -5,13 +5,13 @@
 				<div class="flex flex-col gap-6 px-4 pb-24.5">
 					<ProfileHeader
 						title="プロフィール"
-						settingsLink="/settings"
+						settingsLink=""
 					/>
 					<ProfileAvatar :avatarUrl="profile.avatarUrl" />
 					<ProfileInfo
-						:username="profile.username"
-						:nickname="profile.nickname"
-						:joinedAt="profile.joinedAt"
+						:username="userStore.name"
+						:nickname="userStore.name"
+						:joinedAt="userStore.joinedAt"
 					/>
 					<ProfileStats :stats="profile.stats" />
 				</div>
@@ -25,6 +25,10 @@
 	import ProfileAvatar from "@/components/profile/ProfileAvatar.vue";
 	import ProfileInfo from "@/components/profile/ProfileInfo.vue";
 	import ProfileStats from "@/components/profile/ProfileStats.vue";
+	import { useUserStore } from "@/stores/user"
+	
+	const userStore = useUserStore();
+
 
 	// 例: 実際は API から取得
 	const profile = {
@@ -32,7 +36,7 @@
 			"https://d35aaqx5ub95lt.cloudfront.net/images/7a24dbe6c243d2bbf8b6c8aad73dc941.svg",
 		username: "ひいろ",
 		nickname: "ひい2ろ",
-		joinedAt: "2025年6月",
+		joinedAt: "none",
 		stats: [
 			{
 				iconUrl:

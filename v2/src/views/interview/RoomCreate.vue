@@ -1,16 +1,17 @@
 <!-- src/views/RoomCreate.vue -->
 <template>
-	<div class="p-4">ルームを作成中...</div>
+	<LoadingV2/>
 </template>
 
 <script setup>
-	import { onMounted, inject, ref } from "vue";
+	import { onMounted, ref } from "vue";
 	import { useRouter } from "vue-router";
 	import { postGas } from "@/scripts/gas";
+	import LoadingV2 from "@/components/ui/LoadingV2.vue";
+	import { useSessionStore } from "@/stores/session";
 
-	const { state } = inject("auth");
 	const router = useRouter();
-	const emit = defineEmits(["set-loading"]);
+	const store = useSessionStore();
 
 	const mkroom = ref({
 		error: "",
@@ -21,12 +22,11 @@
 			if (mkroom.value.trying) return;
 			mkroom.value.trying = true;
 			mkroom.value.error = "作成中…";
-			emit("set-loading", true);
 
 			const xhr = postGas(
 				"/api/0.1/room/create",
 				{
-					session_id: state.sessionId,
+					session_id: store.data.value.sessionId,
 					name: mkroom.value.name || "新規部屋",
 				},
 				{
@@ -48,7 +48,6 @@
 								mkroom.value.error = resp.error;
 								return;
 							}
-							emit("set-loading", false);
 							router.replace({
 								name: "Room",
 								params: { roomId: resp.room_id },

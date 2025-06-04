@@ -1,4 +1,4 @@
-import { createWebHashHistory, createRouter } from "vue-router";
+import { createWebHistory, createRouter } from "vue-router";
 
 import Welcome from "@/views/Welcome.vue";
 //
@@ -48,11 +48,11 @@ const routes = [
 	{ path: "/auth", component: AuthPage },
 	{ path: "/login", component: AccountManager },
 	{ path: "/signup", component: SignUp },
-	{ path: "/oauth/line", component: LineAuth },
+	{ path: "/oauth/line", component: LineAuth, props: true },
 ];
 
 const router = createRouter({
-	history: createWebHashHistory(),
+	history: createWebHistory(),
 	routes,
 });
 

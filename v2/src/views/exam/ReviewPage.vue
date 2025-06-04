@@ -14,9 +14,9 @@
 
 				<ReviewContent
 					:part="currentPart"
-					:correctAnswer="currentPart.correctAnswer"
-					:userAnswer="currentPart[currentPart.id]"
-					:explanation="currentPart.explanation"
+					:correctAnswer="currentPart.answer"
+					:userAnswer="currentPart.user_choice"
+					:explanation="currentPart.explain"
 				/>
 			</div>
 		</div>

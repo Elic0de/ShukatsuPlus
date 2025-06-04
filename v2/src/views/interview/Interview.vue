@@ -29,7 +29,7 @@
 	import RecentCallItem from "@/components/interview/RecentCallItem.vue";
 
 	const CACHE_KEY = "room_list_cache";
-	const CACHE_TTL_MS = 60 * 60 * 1000; // 1時間
+	const CACHE_TTL_MS = 1 * 60 * 1000; // 1時間
 
 	const emit = defineEmits(["callbackMeWhenActive"]);
 

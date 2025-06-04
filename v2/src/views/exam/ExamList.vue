@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<!-- <HeaderBar /> -->
-		<div class="m-0 flex w-full flex-col pb-20 text-center">
+		<ExamListSkeleton v-if="examStore.isLoading" />
+		<div v-else class="m-0 flex w-full flex-col pb-20 text-center">
 			<div class="sticky z-10 bg-white">
 				<div class="mt-6 mb-5 text-[25px] font-bold">SPI模擬試験</div>
 				<div class="h-6.5 items-center">
@@ -31,14 +32,14 @@
 							受験履歴
 						</h3>
 						<Card
-							v-for="exam in examStore.data"
-							:key="exam.exam_id"
+							v-for="exam in examStore.history"
+							:key="exam.session_id"
 							:title="exam.title"
-							:date="'2025/05/31'"
+							:date="exam.end_time"
 							@click="
 								() =>
 									goToReview(
-										'0cffbc57-1ce6-4a05-8de7-cbf3bca36720'
+										exam.session_id
 									)
 							"
 						/>
@@ -53,19 +54,25 @@
 	import { onMounted } from "vue";
 	import { useRouter } from "vue-router";
 	import { useExamStore } from "@/stores/exam";
+	import { useSessionStore } from "@/stores/session";
 	import Card from "@/components/ui/Card.vue";
+	import ExamListSkeleton from "@/components/exam/ExamListSkeleton.vue";
 
 	const router = useRouter();
 	const examStore = useExamStore();
+	const sessionStore = useSessionStore();
 
 	onMounted(() => {
-		examStore.load();
+		examStore.load();	
+		examStore.getExamHistory(sessionStore.sessionId.value);
+		console.log(examStore.history.value)
 	});
 
 	async function startExam(examId) {
-		const session_id = await examStore.startExam(examId);
-		if (!session_id) return;
-		router.push(`/spi/${session_id}`);
+		const userId = sessionStore.userId.value;
+		const exam_session_id = await examStore.startExam(examId, userId);
+		if (!exam_session_id) return;
+		router.push(`/spi/${exam_session_id}`);
 	}
 
 	const goToReview = (examId) => {
