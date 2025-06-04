@@ -38,12 +38,50 @@ export const gasApi = {
 
     async fetchAvailableExams() {
         const res = await fetch(`${VITE_GAS_SPI_BASE_URL}?action=getExams`);
-
         if (!res.ok) throw new Error("試験情報取得失敗");
+        
+        return res.json();
+    },
 
     async startExam(examId, userId) {
         const res = await fetch(`${VITE_GAS_SPI_BASE_URL}?action=startExam&user_id=${userId}&exam_id=${examId}`);
         if (!res.ok) throw new Error("試験開始失敗");
+
+        return res.json();
+    },
+
+    async getQuestions(sessionId) {
+        const res = await fetch(`${VITE_GAS_SPI_BASE_URL}?action=getExamDetail&session_id=${sessionId}`);
+        if (!res.ok) throw new Error("試験開始失敗");
+
+        return res.json();
+    },
+    
+    async submitAnswer(sessionId, answers) {
+		const res = await fetch(`${VITE_GAS_SPI_BASE_URL}?action=submitAnswer&session_id=${sessionId}`, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain" },
+                body: JSON.stringify({
+                    session_id: sessionId,
+                    answers: answers
+                })
+            }
+        );
+        if (!res.ok) throw new Error("回答提出失敗");
+
+        return res.json();
+	},
+
+    async getExamHistory(sessionId) {
+        const res = await fetch(`${VITE_GAS_SPI_BASE_URL}?action=getResult&session_id=${sessionId}`);
+        if (!res.ok) throw new Error("受験履歴取得に失敗");
+
+        return res.json();
+    },
+
+    async getReview(attempt_id) {
+        const res = await fetch(`${VITE_GAS_SPI_BASE_URL}?action=getExamReviewDetail&session_id=${attempt_id}`);
+        if (!res.ok) throw new Error("試験内容取得に失敗");
 
         return res.json();
     }

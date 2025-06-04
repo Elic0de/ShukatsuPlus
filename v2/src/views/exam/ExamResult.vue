@@ -12,14 +12,14 @@
 			<div class="mb-2 text-xl font-semibold text-neutral-700">
 				得点:
 				<span class="text-2xl text-indigo-600"
-					>{{ result.score }} / 100</span
+					>{{ result.score }} / {{ result.total }}</span
 				>
 			</div>
 			<div class="text-sm text-neutral-500">
 				正解数: {{ result.correct }} / {{ result.total }} 問
 			</div>
 			<div class="text-sm text-neutral-500">
-				所要時間: {{ result.minutes }}分
+				所要時間: {{ result.duration }}分
 			</div>
 		</div>
 	</div>
